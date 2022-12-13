@@ -1,21 +1,16 @@
-import { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import CleanerView from './components/views/CleanerView';
+import View from './components/views/View';
 
 function App() {
 
-  const[cleanerData, setCleanerData] = useState([])
-
-  useEffect(() => {
-    fetch('http://localhost:8080/cleaner')
-      .then(res => res.json())
-      .then(data => setCleanerData(data))
-  },[])
-
-  console.log(cleanerData)
-
   return (
-    <div className="App">
-      {cleanerData? cleanerData.map(cleaner =><p>{cleaner.name}</p>) : null}
+    <div>
+    <Routes>
+      <Route path='/cleaner' element={<CleanerView />} />
+      <Route path='/' element={<View />} />
+    </Routes>
     </div>
   );
 }
