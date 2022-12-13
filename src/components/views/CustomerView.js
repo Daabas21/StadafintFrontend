@@ -21,6 +21,16 @@ const CustomerView = () => {
             .then(data => setCustomerData(data))
     },[])
 
+/*
+    if (customerData){
+        setCustomerName(customerData.name)
+        setCustomerAddress(customerData.address)
+    } else {
+        setCustomerAddress("")
+    }
+*/
+
+    // setValues({ ...values, [evt.target.name]: evt.target.value });
 
     const handleChange = (e) => {
         console.log(e.target.name)
@@ -61,6 +71,12 @@ const CustomerView = () => {
             <p>Customer: {customerData.address}</p>
             <p>Customer: {customerData.telnum}</p>
             <p>Customer: {customerData.email}</p>
+
+            <p>customerName: {customerName}</p>
+            <p>customerAddress: {customerAddress}</p>
+            <p>customerPhoneNr: {phoneNr}</p>
+            <p>customerMail: {mail}</p>
+
 
             {/*{customerData? customerData.map(customer =><p>Mina sidor: {customer.name}</p>) : null}*/}
             <Box sx={{ width: '100%'}}>
