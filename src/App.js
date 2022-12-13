@@ -18,8 +18,8 @@ function App() {
   return (
     <div className="App">
       <p>Cleaner name: {cleanerData.name}</p>
-      {/* <CustomerView /> */}
-      <RegisterUser />
+        <RegisterUser />
+        <CustomerView />
     </div>
   );
 }

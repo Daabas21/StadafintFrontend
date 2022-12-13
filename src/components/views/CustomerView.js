@@ -1,36 +1,33 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Stack} from "@mui/material";
+import {Button, Stack} from "@mui/material";
 import {useEffect, useState} from "react";
 
 
 const CustomerView = () => {
 
-    const[customerData, setCustomerData] = useState({name: "initialStateName", address: "", telnum: "", email: ""})
-
-    const [customerName, setCustomerName] = useState(customerData.name);
+    const [customerData, setCustomerData] = useState({})
+    const [customerName, setCustomerName] = useState("");
     const [customerAddress, setCustomerAddress] = useState("")
     const [phoneNr, setPhoneNr] = useState("")
     const [mail, setMail] = useState("")
+    const [pass, setPass] = useState("")
 
 
     useEffect( () => {
+
         fetch('http://localhost:8080/customer/1')
             .then(res => res.json())
-            .then(data => setCustomerData(data))
+            .then(data => {
+                setCustomerData(data);
+                setCustomerName(data.name);
+                setCustomerAddress(data.address);
+                setMail(data.email);
+                setPhoneNr(data.telnum);
+                setPass(data.password);
+            })
     },[])
-
-/*
-    if (customerData){
-        setCustomerName(customerData.name)
-        setCustomerAddress(customerData.address)
-    } else {
-        setCustomerAddress("")
-    }
-*/
-
-    // setValues({ ...values, [evt.target.name]: evt.target.value });
 
     const handleChange = (e) => {
         console.log(e.target.name)
@@ -44,21 +41,23 @@ const CustomerView = () => {
         e.preventDefault();
         console.log("CUSTOMER i view -->")
         console.log(customerData)
-        // setCustomerName("")
-        // setCustomerAddress("")
-        // setPhoneNr("")
-        // setMail("")
 
-        fetch('http://localhost:8080/customer/1' , {
-            method: "POST",
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(customerName)
+        fetch("http://localhost:8080/customer/1", {
+            method: "PUT",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({
+                name: customerName,
+                address: customerAddress,
+                telnum: phoneNr,
+                email: mail,
+                password: pass,
+            }),
         })
-            .then((result) => result.json())
-            .then((info) => { console.log(info); })
+            .then(res => res.json())
+            .then(data => console.log("DATA--> ", data))
+            .catch(err => console.log("error --> " + err));
     }
+
 
     // make some kind of check before submitting changes
     function handleClick() {
@@ -67,27 +66,19 @@ const CustomerView = () => {
 
     return (
         <div>
-            <p>Customer: {customerData.name}</p>
-            <p>Customer: {customerData.address}</p>
-            <p>Customer: {customerData.telnum}</p>
-            <p>Customer: {customerData.email}</p>
-
-            <p>customerName: {customerName}</p>
-            <p>customerAddress: {customerAddress}</p>
-            <p>customerPhoneNr: {phoneNr}</p>
-            <p>customerMail: {mail}</p>
-
+            <p>Mina sidor: {customerName}</p>
 
             {/*{customerData? customerData.map(customer =><p>Mina sidor: {customer.name}</p>) : null}*/}
             <Box sx={{ width: '100%'}}>
             <form onSubmit={handleSubmit}>
                 <Stack direction="column" ml={10} mr={10}>
                 <TextField
-                    id="outlined-name"
+                    id="outlined"
                     name="customerName"
                     label="Name"
                     value={customerName}
-                    onChange={handleChange}
+                    onChange={e => setCustomerName(e.target.value)}
+                    inputMode="text"
                     margin="normal"
                 />
                 <TextField
@@ -103,6 +94,7 @@ const CustomerView = () => {
                     value={phoneNr}
                     onChange={e => setPhoneNr(e.target.value)}
                     margin="normal"
+                    inputMode="tel"
                 />
                 <TextField
                     id="outlined-email"
@@ -110,9 +102,10 @@ const CustomerView = () => {
                     value={mail}
                     onChange={e => setMail(e.target.value)}
                     margin="normal"
+                    inputMode={"email"}
                 />
                 </Stack>
-                <button type="submit" onClick={handleClick}>Save changes</button>
+                <Button type={"submit"} color={"primary"} variant={"outlined"} onClick={handleClick}>Save changes</Button>
 
             </form>
             </Box>
