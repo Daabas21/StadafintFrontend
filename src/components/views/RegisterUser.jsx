@@ -34,12 +34,6 @@ const RegisterUser = () => {
     password: "",
   });
 
-  useEffect(() => {
-    fetch("blablablab")
-      .then((res) => res.json())
-      .then((data) => setValues(data)); //hämta entyties from backend
-  }, []);
-
   //WIll be moved  to APPBAR?!
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -50,6 +44,15 @@ const RegisterUser = () => {
 
   const handleSubmit = (event) => {
     alert("ALERT " + values);
+
+    fetch("http://localhost:8080/customer", {
+      method: "POST",
+      headers: { "Content-type": "application/json; charset=UTF-8" },
+      body: JSON.stringify(),
+    })
+      .then((res) => res.json())
+      .then((data) => setValues(data)) //hämta entyties from backend
+      .catch();
   };
 
   return (
