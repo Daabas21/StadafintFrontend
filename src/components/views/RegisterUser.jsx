@@ -27,9 +27,9 @@ const RegisterUser = () => {
   //Need state with values from entitys?
   const [values, setValues] = useState({
     id: "",
-    fullname: "",
+    name: "",
     adress: "",
-    phonenumber: "",
+    phone: "",
     email: "",
     password: "",
   });
@@ -38,21 +38,28 @@ const RegisterUser = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleChange = (event) => {
-    setValues({ ...values, [event.target.name]: event.target.value });
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+    console.log(e.target.value);
   };
 
-  const handleSubmit = (event) => {
-    alert("ALERT " + values);
+  const handleSubmit = (e) => {
+    alert("ALERT " + values.name);
 
     fetch("http://localhost:8080/customer", {
       method: "POST",
-      headers: { "Content-type": "application/json; charset=UTF-8" },
-      body: JSON.stringify(),
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        kund_name: values.name,
+        kund_adress: values.adress,
+        kund_telnum: values.phone,
+        kund_email: values.email,
+        kund_password: values.password,
+      }),
     })
       .then((res) => res.json())
-      .then((data) => setValues(data)) //hämta entyties from backend
-      .catch();
+      .then((data) => setValues(data))
+      .catch((e) => console.log(e));
   };
 
   return (
@@ -78,40 +85,47 @@ const RegisterUser = () => {
             <FormGroup row>
               <TextField
                 id="outlined-basic"
+                name="name"
                 label="Name"
                 variant="outlined"
-                type={"text"}
+                // value={values.fullname}
                 onChange={handleChange}
               />
               <TextField
                 id="outlined-basic"
+                name="adress"
                 label="Adress"
                 variant="outlined"
-                type={"text"}
+                // value={values.adress}
                 onChange={handleChange}
               />
             </FormGroup>
             <FormGroup row>
               <TextField
                 id="outlined-basic"
-                label="Phonenumber"
+                name="phone"
+                label="Phone"
                 variant="outlined"
-                type={"text"}
+                // value={values.phone}
                 onChange={handleChange}
               />
               <TextField
                 id="outlined-basic"
+                name="email"
                 label="Email"
                 variant="outlined"
-                type={"text"}
+                // value={values.email}
                 onChange={handleChange}
               />
             </FormGroup>
             <FormGroup row>
               <TextField
                 id="outlined-basic"
+                name="password"
                 label="Password"
                 variant="outlined"
+                type={"text"}
+                // value={values.password}
                 onChange={handleChange}
               />
             </FormGroup>

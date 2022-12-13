@@ -9,7 +9,8 @@ function App() {
   useEffect(() => {
     fetch("http://localhost:8080/cleaner/1")
       .then((res) => res.json())
-      .then((data) => setCleanerData(data));
+      .then((data) => setCleanerData(data))
+      .catch((e) => console.log(e));
   }, []);
 
   console.log(cleanerData);
@@ -17,7 +18,7 @@ function App() {
   return (
     <div className="App">
       <p>Cleaner name: {cleanerData.name}</p>
-      <CustomerView />
+      {/* <CustomerView /> */}
       <RegisterUser />
     </div>
   );
