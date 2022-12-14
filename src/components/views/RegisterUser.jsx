@@ -1,41 +1,15 @@
 import * as React from "react";
-import {
-  Modal,
-  Box,
-  Typography,
-  TextField,
-  Button,
-  FormGroup,
-} from "@mui/material";
+import { Box, Typography, TextField, Button, Stack } from "@mui/material";
 import { useState } from "react";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
-
 const RegisterUser = () => {
-  const [open, setOpen] = React.useState(false);
-  //Need state with values from entitys?
   const [values, setValues] = useState({
-    id: "",
     name: "",
     adress: "",
-    phone: "",
+    telnum: "",
     email: "",
     password: "",
   });
-
-  //WIll be moved  to APPBAR?!
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -43,98 +17,103 @@ const RegisterUser = () => {
   };
 
   const handleSubmit = (e) => {
-    alert("ALERT " + values.name);
-
     fetch("http://localhost:8080/customer", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
-        kund_name: values.name,
-        kund_adress: values.adress,
-        kund_telnum: values.phone,
-        kund_email: values.email,
-        kund_password: values.password,
+        name: values.name,
+        address: values.address,
+        telnum: values.telnum,
+        email: values.email,
+        password: values.password,
       }),
     })
       .then((res) => res.json())
-      .then((data) => setValues(data))
-      .catch((e) => console.log(e));
+      .then((data) => console.log(data))
+      .catch((e) => console.log("Error " + e));
   };
+
+  function handleClick() {
+    handleSubmit();
+    alert("Your account is created ");
+  }
 
   return (
     <div>
-      <Button onClick={handleOpen}>Register new user</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+      <Typography
+        id="modal-modal-title"
+        variant="h6"
+        component="h2"
+        align="center"
+        onChange={handleChange}
       >
-        <form onSubmit={handleSubmit}>
-          <Box sx={style}>
-            <Typography
-              id="modal-modal-title"
-              variant="h6"
-              component="h2"
-              align="center"
+        Register User
+      </Typography>
+      <Box sx={{ width: "100%" }}>
+        <form>
+          <Stack direction="column" ml={10} mr={10}>
+            <TextField
+              id="outlined-basic"
+              name="name"
+              label="Name"
+              variant="outlined"
+              value={values.fullname}
               onChange={handleChange}
-            >
-              Register User
-            </Typography>
-            <FormGroup row>
-              <TextField
-                id="outlined-basic"
-                name="name"
-                label="Name"
-                variant="outlined"
-                // value={values.fullname}
-                onChange={handleChange}
-              />
-              <TextField
-                id="outlined-basic"
-                name="adress"
-                label="Adress"
-                variant="outlined"
-                // value={values.adress}
-                onChange={handleChange}
-              />
-            </FormGroup>
-            <FormGroup row>
-              <TextField
-                id="outlined-basic"
-                name="phone"
-                label="Phone"
-                variant="outlined"
-                // value={values.phone}
-                onChange={handleChange}
-              />
-              <TextField
-                id="outlined-basic"
-                name="email"
-                label="Email"
-                variant="outlined"
-                // value={values.email}
-                onChange={handleChange}
-              />
-            </FormGroup>
-            <FormGroup row>
-              <TextField
-                id="outlined-basic"
-                name="password"
-                label="Password"
-                variant="outlined"
-                type={"text"}
-                // value={values.password}
-                onChange={handleChange}
-              />
-            </FormGroup>
+              margin="normal"
+            />
+            <TextField
+              id="outlined-basic"
+              name="address"
+              label="Address"
+              variant="outlined"
+              value={values.address}
+              onChange={handleChange}
+              margin="normal"
+            />
 
-            <Button type={"submit"} color={"primary"} variant={"contained"}>
-              Create Account
-            </Button>
-          </Box>
+            <TextField
+              id="outlined-basic"
+              name="telnum"
+              label="Phone"
+              variant="outlined"
+              value={values.telnum}
+              onChange={handleChange}
+              margin="normal"
+            />
+            <TextField
+              id="outlined-basic"
+              name="email"
+              label="Email"
+              variant="outlined"
+              value={values.email}
+              onChange={handleChange}
+              margin="normal"
+            />
+
+            <TextField
+              id="outlined-basic"
+              name="password"
+              label="Password"
+              variant="outlined"
+              type={"password"}
+              value={values.password}
+              onChange={handleChange}
+              margin="normal"
+            />
+          </Stack>
+
+          <Button
+            type={"submit"}
+            color={"primary"}
+            variant={"outlined"}
+            onClick={handleClick}
+            margin="normal"
+          >
+            Create Account
+          </Button>
         </form>
-      </Modal>
+      </Box>
+      {/* </Modal> */}
     </div>
   );
 };
