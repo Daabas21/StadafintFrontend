@@ -87,6 +87,9 @@ function CleanerView() {
             color='success'
             onClick={handleSave}
             >Edit</Button>
+            <div>
+                
+            </div>
       </Stack>
     </div>
   );
