@@ -1,7 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import CleanerView from './components/views/CleanerView';
-import View from './components/views/View';
+import CustomerView from './components/views/CustomerView';
+import RegisterUser from './components/views/RegisterUser';
 
 function App() {
 
@@ -9,7 +10,8 @@ function App() {
     <div>
     <Routes>
       <Route path='/cleaner' element={<CleanerView />} />
-      <Route path='/' element={<View />} />
+      <Route path='/customer' element={<CustomerView />} />
+      <Route path='/user' element={<RegisterUser />} />
     </Routes>
     </div>
   );
