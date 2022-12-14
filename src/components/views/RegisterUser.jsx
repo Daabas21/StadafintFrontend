@@ -8,7 +8,6 @@ import {
   FormGroup,
 } from "@mui/material";
 import { useState } from "react";
-import { useEffect } from "react";
 
 const style = {
   position: "absolute",
