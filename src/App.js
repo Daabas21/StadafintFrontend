@@ -7,12 +7,15 @@ import RegisterUser from './components/views/RegisterUser';
 function App() {
 
   return (
-    <div>
+
+    <div className="App">
     <Routes>
       <Route path='/cleaner' element={<CleanerView />} />
       <Route path='/customer' element={<CustomerView />} />
       <Route path='/user' element={<RegisterUser />} />
     </Routes>
+
+   
     </div>
   );
 }
