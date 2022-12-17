@@ -58,7 +58,6 @@ const RegisterBooking = () => {
                     id="title"
                     component="h1"
                     variant="h5"
-                    align="center"
                     marginTop={2}
                 >
                     Book Your Cleaning
