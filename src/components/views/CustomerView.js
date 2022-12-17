@@ -24,12 +24,6 @@ const CustomerView = () => {
       });
   }, []);
 
-  const handleChange = (e) => {
-    console.log(e.target.name);
-    console.log(customerName);
-    setCustomerName(e.target.value);
-  };
-
   const handleSubmit = (e) => {
     alert(
       "Change submitted: " +
@@ -41,18 +35,7 @@ const CustomerView = () => {
         " " +
         mail
     );
-    console.log(
-      "Name: ",
-      customerName,
-      "Adress: ",
-      customerAddress,
-      "phoneNr: ",
-      phoneNr,
-      "email: ",
-      mail
-    );
     e.preventDefault();
-    console.log("CUSTOMER i view -->");
     console.log(customerData);
 
     fetch("http://localhost:8080/customer/1", {
@@ -78,24 +61,22 @@ const CustomerView = () => {
 
   return (
     <div>
-      <Typography
-        id="modal-modal-title"
-        variant="h6"
-        component="h2"
-        align="center"
-        onChange={handleChange}
-      >
-        Mina sidor: {customerName}
-      </Typography>
+      <Box sx={{ textAlign: "center" }}>
+        <Typography
+            id="title"
+            component="h1"
+            variant="h5"
+            marginTop={2}
+        >
+          Mina sidor: {customerName}
+        </Typography>
 
-      {/*{customerData? customerData.map(customer =><p>Mina sidor: {customer.name}</p>) : null}*/}
-      <Box sx={{ width: "100%" }}>
         <form onSubmit={handleSubmit}>
-          <Stack direction="column" ml={10} mr={10}>
+          <Stack direction="column" alignItems="center" spacing={4} >
             <TextField
-              id="outlined"
-              name="customerName"
+              id="outlined-name"
               label="Name"
+              name="name"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
               inputMode="text"
@@ -104,6 +85,7 @@ const CustomerView = () => {
             <TextField
               id="outlined-address"
               label="Address"
+              name="address"
               value={customerAddress}
               onChange={(e) => setCustomerAddress(e.target.value)}
               margin="normal"
@@ -111,6 +93,7 @@ const CustomerView = () => {
             <TextField
               id="outlined-phone"
               label="Phone"
+              name="telnum"
               value={phoneNr}
               onChange={(e) => setPhoneNr(e.target.value)}
               margin="normal"
@@ -119,6 +102,7 @@ const CustomerView = () => {
             <TextField
               id="outlined-email"
               label="Email"
+              name="email"
               value={mail}
               onChange={(e) => setMail(e.target.value)}
               margin="normal"
@@ -128,8 +112,9 @@ const CustomerView = () => {
           <Button
             type={"submit"}
             color={"primary"}
-            variant={"outlined"}
+            variant={"contained"}
             onClick={handleClick}
+            sx={{marginTop: 4}}
           >
             Save changes
           </Button>
