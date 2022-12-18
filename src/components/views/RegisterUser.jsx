@@ -5,7 +5,7 @@ import { useState } from "react";
 const RegisterUser = () => {
   const [values, setValues] = useState({
     name: "",
-    adress: "",
+    address: "",
     telnum: "",
     email: "",
     password: "",
@@ -45,7 +45,6 @@ const RegisterUser = () => {
         variant="h6"
         component="h2"
         align="center"
-        onChange={handleChange}
       >
         Register User
       </Typography>
@@ -113,7 +112,6 @@ const RegisterUser = () => {
           </Button>
         </form>
       </Box>
-      {/* </Modal> */}
     </div>
   );
 };

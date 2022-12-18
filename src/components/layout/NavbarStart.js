@@ -15,7 +15,7 @@ const NavbarStart = () => {
             Städa fint
           </Typography>
 
-          <Button color="inherit" component={Link} to="/user">
+          <Button color="inherit" component={Link} to="/RegisterUser">
             Create Account
           </Button>
           <Button color="inherit" component={Link} to="/booking">
