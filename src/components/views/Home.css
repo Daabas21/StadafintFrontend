@@ -1,0 +1,28 @@
+.hero-CTA {
+    color: #455F6E;
+    height: 100vh;
+    width: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-title span {
+    font-size: 5rem;
+    color: #1976D2;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    margin: 0;
+}
