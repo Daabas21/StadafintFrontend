@@ -15,6 +15,7 @@ import {
     Typography
 } from '@mui/material';
 import {useState} from "react";
+import {useEffect} from "react";
 
 const RegisterBooking = () => {
 
@@ -22,33 +23,60 @@ const RegisterBooking = () => {
     const [timeValue, setTimeValue] = useState();
     const [input, setInput] = useState({cleanerId: 1 , customerId: 1 ,description: "", address: "", date: "", time: "", status: "Unconfirmed", workingTime: 0.0, service: ""})
 
+    const [bookingList, setBookingList] = useState([]);
+    let filteredList = []
+
+
+    useEffect(() => {
+        fetch("http://localhost:8080/booking")
+            .then((res) => res.json())
+            .then((data) => setBookingList(data));
+    }, []);
+
+
+    const checkIfBookingExists = () => {
+        filteredList = bookingList.filter((book) => (book.customerId === input.customerId &&
+                    book.date === dateValue.$d.toLocaleDateString('en-CA') &&
+                    book.address === input.address &&
+                    book.time === `${timeValue.$d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}:00`
+        ))
+    }
+
     const handleChange = (e) => {
         setInput(prev => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
     const handleClick = () => {
 
-        const date = new Date(dateValue)
-        const formattedTime = `${timeValue.$H}:${timeValue.$m}:00`
+        checkIfBookingExists()
+        if(!filteredList.length) {
 
-        fetch("http://localhost:8080/booking", {
-            method: "POST",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify({
-                cleanerId: input.cleanerId,
-                customerId: input.customerId,
-                description: input.description,
-                address: input.address,
-                date: date,
-                time: formattedTime,
-                status: input.status,
-                workingTime: input.workingTime,
-                service: input.service
-            }),
-        })
-            .then((res) => res.json())
-            .then((data) => console.log(data))
-            .catch((e) => console.log("Error " + e));
+            const date = new Date(dateValue)
+            const formattedTime = `${timeValue.$d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}:00`
+
+            fetch("http://localhost:8080/booking", {
+                method: "POST",
+                headers: { "Content-type": "application/json" },
+                body: JSON.stringify({
+                    cleanerId: input.cleanerId,
+                    customerId: input.customerId,
+                    description: input.description,
+                    address: input.address,
+                    date: date,
+                    time: formattedTime,
+                    status: input.status,
+                    workingTime: input.workingTime,
+                    service: input.service
+                }),
+            })
+                .then((res) => res.json())
+                .then((data) => console.log(data))
+                .catch((e) => console.log("Error " + e));
+            alert("Booked successfully!")
+    }
+        else {
+            alert("You have already made a booking like this. Please try again with other date/time/address.")
+        }
     }
 
     return (
@@ -67,14 +95,14 @@ const RegisterBooking = () => {
                     <FormLabel id="cleaning-type">Cleaning type/service: </FormLabel>
                     <RadioGroup
                         aria-labelledby="cleaning-type"
-                        defaultValue="B"
+                        defaultValue="basic"
                         name="service"
                         onChange={handleChange}
                     >
-                        <FormControlLabel value="B" control={<Radio />} label="Basic" />
-                        <FormControlLabel value="T" control={<Radio />} label="Topp" />
-                        <FormControlLabel value="D" control={<Radio />} label="Diamant" />
-                        <FormControlLabel value="W" control={<Radio />} label="Window cleaning" />
+                        <FormControlLabel value="basic" control={<Radio />} label="Basic" />
+                        <FormControlLabel value="topp" control={<Radio />} label="Topp" />
+                        <FormControlLabel value="diamant" control={<Radio />} label="Diamant" />
+                        <FormControlLabel value="window-clean" control={<Radio />} label="Window cleaning" />
                     </RadioGroup>
                 </FormControl>
 
@@ -87,9 +115,7 @@ const RegisterBooking = () => {
                         }}
                         renderInput={(props) => <TextField {...props} helperText={"mm/dd/yy"}/>}
                     />
-                {/*</LocalizationProvider>*/}
 
-                {/*<LocalizationProvider dateAdapter={AdapterDayjs}>*/}
                     <TimePicker
                         label="Pick time"
                         value={timeValue}
