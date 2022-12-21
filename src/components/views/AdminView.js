@@ -11,9 +11,8 @@ import {
   MenuItem,
   Typography,
   FormControl,
-  TextField,
 } from "@mui/material";
-import AdminBookingM from "./AdminBookingM";
+import AdminBookingCardView from "./AdminBookingCardView";
 
 const AdminView = () => {
   const [bookings, setBookings] = useState([]);
@@ -26,27 +25,21 @@ const AdminView = () => {
     fetch("http://localhost:8080/booking")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setBookings(data);
-        // console.log(data[1].bookingId);
       });
     fetch("http://localhost:8080/cleaner")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setCleaners(data);
       });
     fetch("http://localhost:8080/customer")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setCustomers(data);
       });
   }, []);
 
   const handleCheckBox = (e, b) => {
-    console.log(b, e.target.checked);
-
     const bookingsCopy = [...bookings];
     bookingsCopy.forEach((booking) => {
       if (booking.bookingId === b.bookingId && e.target.checked) {
@@ -57,8 +50,6 @@ const AdminView = () => {
   };
 
   const handleChange = (e, b) => {
-    console.log(b, e.target.value);
-
     const bookingsCopy = [...bookings];
     bookingsCopy.forEach((booking) => {
       if (booking.bookingId === b.bookingId) {
@@ -69,9 +60,6 @@ const AdminView = () => {
   };
 
   const handleClick = (booking) => {
-    console.log("Saved Changes");
-    console.log(booking);
-
     fetch(`http://localhost:8080/booking/${booking.bookingId}`, {
       method: "PUT",
       headers: { "Content-type": "application/json" },
@@ -90,14 +78,34 @@ const AdminView = () => {
     });
   };
 
+  const findAvailableCleaners = (b) => {
+    return cleaners.filter((cleaner) => {
+      let isAvailable = true;
+      bookings.forEach((booking) => {
+        if (cleaner.id === booking.cleanerId && booking.date === b.date) {
+          // check time ?  && (booking.time === b.time || diff between booking.time and b.time is less than 2h)
+          isAvailable = false;
+        }
+      });
+
+      if (isAvailable) {
+        return cleaner;
+      } else {
+        return null;
+      }
+    });
+  };
+
   return (
     <div>
       {bookingView ? (
-        <AdminBookingM
+        <AdminBookingCardView
           booking={currentViewBooking.booking}
           cleaner={currentViewBooking.cleaner}
-          customer={currentViewBooking.customer}
           cleaners={cleaners}
+          bookings={bookings}
+          setBookings={setBookings}
+          setBookingView={setBookingView}
         />
       ) : null}
       {cleaners && customers && bookings
@@ -105,24 +113,6 @@ const AdminView = () => {
             return (
               <ListItem key={booking.bookingId}>
                 <ListItemButton>
-                  {/* <ListItemText
-                primary={
-                  <Typography variant="h6" style={{ color: "#1976d2" }}>
-                    Booking Id: {booking.bookingId}
-                  </Typography>
-                }
-              />
-
-              <ListItemText primary={`Customer: ${booking.customerId}`} />
-              <ListItemText primary={`Date: ${booking.date}`} />
-              <ListItemText primary={`Time: ${booking.time}`} />
-              <ListItemText primary={`Adress: ${booking.address}`} />
-              <ListItemText primary={`Description: ${booking.description}`} />
-              <ListItemText primary={`Service: ${booking.service}`} />
-              <ListItemText
-                primary={`Work hour/s: ${booking.workingTime} 
-            `}
-              /> */}
                   <ListItemText
                     primary={
                       <Button
@@ -142,16 +132,17 @@ const AdminView = () => {
                     secondary={`Cleaner ${booking.cleanerId}: ${
                       cleaners.find((c) => c.id === booking.cleanerId)?.name
                     } * 
-            Customer ${booking.customerId}: ${
-                      customers.find((c) => c.id === booking.customerId)?.name
-                    } * 
+            Customer: ${
+              customers.find((c) => c.id === booking.customerId)?.name
+            } * 
+            Adress: ${booking.address} *
             Date: ${booking.date} *
             Time: ${booking.time} *
             Description: ${booking.description} *
            
             `}
                   />
-                  <ListItemText
+                  {/* <ListItemText
                     secondary={
                       booking.service === null
                         ? ""
@@ -164,43 +155,36 @@ const AdminView = () => {
                         ? ""
                         : ` ${booking.workingTime} hr/hrs `
                     }
-                  />
+                  /> */}
 
-                  <TextField
-                    id="address"
-                    label="Address"
-                    variant="standard"
-                    value={booking.address}
-                    name="address"
-                    onChange={handleChange}
-                  />
-
-                  <FormControl sx={{ m: 1, minWidth: 110 }}>
-                    <InputLabel id="demo-simple-select-label">
-                      Cleaners
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={""}
-                      label="Cleaner"
-                      onChange={(e) => handleChange(e, booking)}
-                    >
-                      {cleaners.map((cleaner) => (
-                        <MenuItem key={cleaner.id} value={cleaner.id}>
-                          {cleaner.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
                   <div>
                     {booking.status === "Unconfirmed" ||
                     booking.status === "UnConfirmed" ? (
-                      <Checkbox
-                        onChange={(e) => handleCheckBox(e, booking)}
-                        inputProps={{ "aria-label": "controlled" }}
-                        checked={false}
-                      />
+                      <div>
+                        <FormControl sx={{ m: 1, minWidth: 110 }}>
+                          <InputLabel id="demo-simple-select-label">
+                            Cleaners
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={""}
+                            label="Cleaner"
+                            onChange={(e) => handleChange(e, booking)}
+                          >
+                            {findAvailableCleaners(booking).map((cleaner) => (
+                              <MenuItem key={cleaner.id} value={cleaner.id}>
+                                {cleaner.name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                        <Checkbox
+                          onChange={(e) => handleCheckBox(e, booking)}
+                          inputProps={{ "aria-label": "controlled" }}
+                          checked={false}
+                        />
+                      </div>
                     ) : (
                       <Checkbox disabled checked />
                     )}
