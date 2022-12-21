@@ -4,6 +4,7 @@ import CustomerView from "./views/CustomerView";
 import RegisterUser from "./views/RegisterUser";
 import AdminPage from "./views/AdminPage";
 import RegisterBooking from "./views/RegisterBooking";
+import Login from "./views/Login";
 import Home from "./views/Home";
 
 function AppRouter() {
@@ -14,10 +15,10 @@ function AppRouter() {
       <Route path="/customer" element={<CustomerView />} />
       <Route path="/registeruser" element={<RegisterUser />} />
       <Route path="/adminpage" element={<AdminPage />} />
-      <Route path="/login" element={<CustomerView />} />
       <Route path="/booking" element={<RegisterBooking />} />
       <Route path="/logout" element={<CustomerView />} />
       {/* Add log in component here Hassan */}
+      <Route path="/login" element={<Login />} />
     </Routes>
   );
 }
