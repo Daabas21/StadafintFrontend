@@ -15,7 +15,6 @@ function AppRouter() {
       <Route path="/customer" element={<CustomerView />} />
       <Route path="/registeruser" element={<RegisterUser />} />
       <Route path="/adminpage" element={<AdminPage />} />
-      <Route path="/customerside" element={<CustomerView />} />
       <Route path="/booking" element={<RegisterBooking />} />
       <Route path="/logout" element={<CustomerView />} />
       {/* Add log in component here Hassan */}
