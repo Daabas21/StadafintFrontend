@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import CleanerView from "./views/CleanerView";
 import CustomerView from "./views/CustomerView";
 import RegisterUser from "./views/RegisterUser";
-import AdminPage from "./views/AdminPage";
+import AdminView from "./views/AdminView";
 import RegisterBooking from "./views/RegisterBooking";
 
 function AppRouter() {
@@ -11,7 +11,7 @@ function AppRouter() {
       <Route path="/cleaner" element={<CleanerView />} />
       <Route path="/customer" element={<CustomerView />} />
       <Route path="/registeruser" element={<RegisterUser />} />
-      <Route path="/adminpage" element={<AdminPage />} />
+      <Route path="/admin" element={<AdminView />} />
       <Route path="/login" element={<CustomerView />} />
       <Route path="/booking" element={<RegisterBooking />} />
       <Route path="/logout" element={<CustomerView />} />
