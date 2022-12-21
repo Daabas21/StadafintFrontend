@@ -12,7 +12,12 @@ const CustomerView = () => {
   const [pass, setPass] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8080/customer/1")
+    fetch("http://localhost:8080/customer/1",{
+      method:"GET",
+      headers:{
+        "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
         setCustomerData(data);
@@ -40,7 +45,10 @@ const CustomerView = () => {
 
     fetch("http://localhost:8080/customer/1", {
       method: "PUT",
-      headers: { "Content-type": "application/json" },
+      headers: { 
+        "Content-type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token")
+     },
       body: JSON.stringify({
         name: customerName,
         address: customerAddress,

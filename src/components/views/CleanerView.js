@@ -7,12 +7,16 @@ function CleanerView() {
   const[input, setInput] = useState({name: "", address: "", telnum: "", email: "", password: ""})
 
   useEffect(() => {
-    fetch('http://localhost:8080/cleaner/1')
+    fetch('http://localhost:8080/cleaner/1',{
+      method:"GET",
+      headers:{
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+    })
       .then(res => res.json())
       .then(data => setCleanerData(data))
   },[])
-
-  console.log(cleanerData)
 
   const handleChange = (e) => {
     setInput(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -20,18 +24,23 @@ function CleanerView() {
 
   const handleSave = async () => {
 
-    console.log(input)
-
     await fetch('http://localhost:8080/cleaner/1', {
         method: 'PUT',
         body: JSON.stringify(input),
         headers: {
-            'Content-Type' : 'application/json'
+            'Content-Type' : 'application/json',
+            "Authorization": "Bearer " + localStorage.getItem("token")
         }
     })
 
-    let response = await fetch('http://localhost:8080/cleaner/1')
+    let response = await fetch('http://localhost:8080/cleaner/1',{
+      method:"GET",
+      headers:{
+        "Authorization": "Bearer " + localStorage.getItem("token")
+      }})
     let body = await response.json()
+
+    console.log(body)
 
     setCleanerData(body)
   }
