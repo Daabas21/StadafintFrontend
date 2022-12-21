@@ -5,10 +5,12 @@ import RegisterUser from "./views/RegisterUser";
 import AdminPage from "./views/AdminPage";
 import RegisterBooking from "./views/RegisterBooking";
 import Login from "./views/Login";
+import Home from "./views/Home";
 
 function AppRouter() {
   return (
     <Routes>
+        <Route path="/" element={<Home />} />
       <Route path="/cleaner" element={<CleanerView />} />
       <Route path="/customer" element={<CustomerView />} />
       <Route path="/registeruser" element={<RegisterUser />} />
