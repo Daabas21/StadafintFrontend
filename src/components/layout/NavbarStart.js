@@ -18,11 +18,11 @@ const NavbarStart = () => {
           <Button color="inherit" component={Link} to="/RegisterUser">
             Create Account
           </Button>
-          <Button color="inherit" component={Link} to="/booking">
-            Book
-          </Button>
           <Button color="inherit" component={Link} to="/customer">
-            Mina Sidor
+            My Page
+          </Button>
+          <Button color="inherit" component={Link} to="/bookings">
+            My Bookings
           </Button>
           <Button color="inherit" component={Link} to="/login">
             Login
