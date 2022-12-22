@@ -16,7 +16,8 @@ function AppRouter() {
       <Route path="/customer" element={<CustomerView />} />
       <Route path="/registeruser" element={<RegisterUser />} />
       <Route path="/adminpage" element={<AdminPage />} />
-      <Route path="/booking" element={<RegisterBooking />} />
+      <Route path="/register-booking" element={<RegisterBooking />} />
+        <Route path="/bookings" element={<CustomerBookings />} />
       <Route path="/logout" element={<CustomerView />} />
       {/* Add log in component here Hassan */}
       <Route path="/login" element={<Login />} />
