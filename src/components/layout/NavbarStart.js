@@ -11,7 +11,12 @@ const NavbarStart = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" component={Link} to="/" sx={{ flexGrow: 1, textDecoration: 'none', color: "white" }}>
+          <Typography
+            variant="h6"
+            component={Link}
+            to="/"
+            sx={{ flexGrow: 1, textDecoration: "none", color: "white" }}
+          >
             Städa fint
           </Typography>
 
@@ -20,6 +25,9 @@ const NavbarStart = () => {
           </Button>
           <Button color="inherit" component={Link} to="/booking">
             Book
+          </Button>
+          <Button color="inherit" component={Link} to="/admin">
+            Admin
           </Button>
           <Button color="inherit" component={Link} to="/customer">
             Mina Sidor
