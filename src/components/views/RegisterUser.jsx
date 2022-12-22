@@ -20,7 +20,8 @@ const RegisterUser = () => {
   const handleSubmit = async (e) => {
     const res = await fetch("http://localhost:8080/auth/register", {
       method: "POST",
-      headers: { "Content-type": "application/json" },
+      headers: { 
+        "Content-type": "application/json" },
       body: JSON.stringify({
         name: values.name,
         address: values.address,
