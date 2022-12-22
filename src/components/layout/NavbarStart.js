@@ -27,7 +27,6 @@ const NavbarStart = () => {
           <Button color="inherit" component={Link} to="/login">
             Login
           </Button>
-
         </Toolbar>
       </AppBar>
     </Box>
