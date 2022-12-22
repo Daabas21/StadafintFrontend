@@ -32,6 +32,9 @@ const NavbarStart = () => {
           <Button color="inherit" component={Link} to="/customer">
             Mina Sidor
           </Button>
+          <Button color="inherit" component={Link} to="/my-bookings">
+            My Bookings
+          </Button>
           <Button color="inherit" component={Link} to="/login">
             Login
           </Button>
