@@ -3,10 +3,10 @@ import {
     Accordion,
     AccordionDetails,
     AccordionSummary, Button, Card, CardActions, CardContent,
-    Divider,
+    Divider, Grid,
     List,
     ListItem,
-    ListItemText,
+    ListItemText, Stack,
     Typography
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -22,22 +22,24 @@ const CustomerBookings = () => {
             .then((data) => setBookingList(data));
     }, []);
 
+    let sortedBookings = bookingList.sort((a,b) => Date.parse(a.date) - Date.parse(b.date))
 
     return(
-        <div style={{ display: "flex", flexDirection: "column", alignItems:"center"}}>
+         <div style={{ display: "flex", flexDirection: "column", alignItems:"center", justifyContent: "center", margin: 20}}>
             <Typography
                 id="title"
                 component="h1"
                 variant="h5"
                 marginTop={2}
             >
-                Your bookings
+                Bookings
             </Typography>
+    <Grid container spacing={2} wrap={"wrap"} justifyContent={"center"}>
 
-            {bookingList.map((booking, index) => {
+            {sortedBookings.map((booking, index) => {
                 return (
-
-                    <Card sx={{ minWidth: 275, marginTop: 2 }}>
+                    <Grid item md={4} >
+                    <Card sx={{ minWidth: 250, marginTop: 2, textAlign: "center" }}>
                         <CardContent>
                             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                 {booking.date}
@@ -58,7 +60,7 @@ const CustomerBookings = () => {
                             <Button size="small">Delete</Button>
                         </CardActions>
                     </Card>
-
+                    </Grid>
 
 
                     // <Accordion>
@@ -123,7 +125,7 @@ const CustomerBookings = () => {
 
             )
             })}
-
+    </Grid>
         </div>
     )
 }
