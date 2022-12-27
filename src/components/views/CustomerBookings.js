@@ -2,11 +2,22 @@ import {useEffect, useState} from "react";
 import {
     Accordion,
     AccordionDetails,
-    AccordionSummary, Button, Card, CardActions, CardContent,
-    Divider, Grid,
+    AccordionSummary,
+    Button,
+    Card,
+    CardActions,
+    CardContent,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Divider,
+    Grid,
     List,
     ListItem,
-    ListItemText, Stack,
+    ListItemText,
+    Stack,
     Typography
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -15,117 +26,110 @@ import * as React from "react";
 const CustomerBookings = () => {
 
     const [bookingList, setBookingList] = useState([]);
+    const [customerId, setCustomerId] = useState(0)
 
     useEffect(() => {
-        fetch("http://localhost:8080/customer/1/booking")
+        fetch("http://localhost:8080/customer/1", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        })
             .then((res) => res.json())
-            .then((data) => setBookingList(data));
-    }, []);
+            .then((data) => {
+                setCustomerId(data.id)
+            })
+        getData().then(r => r)
+
+    }, [customerId]);
+
+    const getData = async () => {
+        let res = await fetch(`http://localhost:8080/customer/${customerId}/booking`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        })
+        let data = await res.json();
+
+        setBookingList(data)
+    }
 
     let sortedBookings = bookingList.sort((a,b) => Date.parse(a.date) - Date.parse(b.date))
 
-    return(
-         <div style={{ display: "flex", flexDirection: "column", alignItems:"center", justifyContent: "center", margin: 20}}>
+
+    const handleDelete = async (id) => {
+        const choice = window.confirm(
+            "Are you sure you want to delete this booking? This action can not be undone."
+        )
+        if (choice) {
+            await fetch(`http://localhost:8080/customer/booking/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                }
+            })
+
+            await getData()
+        }
+    }
+
+
+    return (
+        <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: 20
+        }}>
             <Typography
                 id="title"
                 component="h1"
                 variant="h5"
                 marginTop={2}
+                marginBottom={2}
             >
                 Bookings
             </Typography>
-    <Grid container spacing={2} wrap={"wrap"} justifyContent={"center"}>
+            <Grid container spacing={2} wrap={"wrap"} justifyContent={"center"}>
 
-            {sortedBookings.map((booking, index) => {
-                return (
-                    <Grid item md={4} >
-                    <Card sx={{ minWidth: 250, marginTop: 2, textAlign: "center" }}>
-                        <CardContent>
-                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                {booking.date}
-                            </Typography>
-                            <Typography variant="h5" component="div">
-                                {booking.address}
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                {booking.time}
-                            </Typography>
-                            <Typography variant="body2">
-                                Service: {booking.service ? booking.service : "none"}
-                                <br />
-                                Description: {booking.description ? booking.description : "none"}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Delete</Button>
-                        </CardActions>
-                    </Card>
-                    </Grid>
-
-
-                    // <Accordion>
-                    //     <AccordionSummary
-                    //         expandIcon={<ExpandMoreIcon />}
-                    //         aria-controls="panel1a-content"
-                    //         id="panel1a-header"
-                    //     >
-                    //         <Typography>{booking.date}</Typography>
-                    //         <Typography> @ {booking.time}</Typography>
-                    //     </AccordionSummary>
-                    //     <AccordionDetails>
-                    //         <Typography>
-                    //             {booking.address}
-                    //         </Typography>
-                    //         <Typography>
-                    //             Service: {booking.service ? booking.service : "none"}
-                    //         </Typography>
-                    //         <Typography>
-                    //             Description: {booking.description ? booking.description : "none"}
-                    //         </Typography>
-                    //     </AccordionDetails>
-                    // </Accordion>
-
-
-                    // <List sx={{textAlign: "center"}}>
-                    //     <ListItem>
-                    //         <ListItemText
-                    //             primary={`Date: ${booking.date}`}
-                    //         />
-                    //     </ListItem>
-                    //
-                    //     <ListItem>
-                    //         <ListItemText
-                    //             primary={`Time: ${booking.time}`}
-                    //         />
-                    //     </ListItem>
-                    //     <ListItem>
-                    //         <ListItemText
-                    //             primary={`Address: ${booking.address}`}
-                    //         />
-                    //     </ListItem>
-                    //     <ListItem>
-                    //         <ListItemText
-                    //             primary={booking.service ? `Service: ${booking.service}` : "Service: none"}
-                    //         />
-                    //     </ListItem>
-                    //
-                    //     <ListItem>
-                    //         <ListItemText
-                    //             primary={`Status: ${booking.status}`}
-                    //         />
-                    //     </ListItem>
-                    //     <ListItem>
-                    //         <ListItemText
-                    //             primary={`Description: ${booking.description}`}
-                    //         />
-                    //     </ListItem>
-                    //     <Divider />
-                    //
-                    // </List>
-
-            )
-            })}
-    </Grid>
+                {sortedBookings.map((booking, index) => {
+                    return (
+                        <Grid item key={booking.bookingId}>
+                            <Card key={booking.id} sx={{minWidth: 250, marginTop: 2, textAlign: "center"}}>
+                                <CardContent>
+                                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                                        {booking.date}
+                                    </Typography>
+                                    <Typography variant="h5" component="div">
+                                        {booking.address}
+                                    </Typography>
+                                    <Typography sx={{mb: 1.5}} color="text.secondary">
+                                        {booking.time}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        Service: {booking.service ? booking.service : "none"}
+                                        <br/>
+                                        Status: {booking.status}
+                                        {/*<br/>*/}
+                                        {/*Description: {booking.description ? booking.description : "none"}*/}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions sx={{justifyContent: "center"}}>
+                                    <Button variant="outlined" color="error"
+                                            onClick={() => handleDelete(booking.bookingId)}>
+                                        Unbook
+                                    </Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    )
+                })}
+            </Grid>
         </div>
     )
 }

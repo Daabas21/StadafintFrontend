@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {DatePicker} from '@mui/x-date-pickers/DatePicker';
+import {TimePicker} from '@mui/x-date-pickers/TimePicker';
 import {
     Radio,
     RadioGroup,
@@ -12,8 +12,9 @@ import {
     FormControlLabel,
     Button,
     Stack,
-    Typography
+    Typography, IconButton, Snackbar, Alert
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import {useState} from "react";
 import {useEffect} from "react";
 
@@ -21,45 +22,81 @@ const RegisterBooking = () => {
 
     const [dateValue, setDateValue] = useState();
     const [timeValue, setTimeValue] = useState();
-    const [input, setInput] = useState({cleanerId: 1 , customerId: 1 ,description: "", address: "", date: "", time: "", status: "Unconfirmed", workingTime: 0.0, service: ""})
-
+    const [input, setInput] = useState({
+        cleanerId: 1,
+        customerId: 1,
+        description: "",
+        address: "",
+        date: "",
+        time: "",
+        status: "Unconfirmed",
+        workingTime: 0.0,
+        service: ""
+    })
+    const [customerId, setCustomerId] = useState(0)
     const [bookingList, setBookingList] = useState([]);
     let filteredList = []
 
+    const [open, setOpen] = useState(false)
 
     useEffect(() => {
-        fetch("http://localhost:8080/booking")
+        fetch("http://localhost:8080/customer/1", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        })
             .then((res) => res.json())
-            .then((data) => setBookingList(data));
-    }, []);
+            .then((data) => {
+                setCustomerId(data.id)
+            })
+
+        getBookings().then(r => r)
+    }, [customerId]);
+
+    const getBookings = async() => {
+        let res = await fetch(`http://localhost:8080/customer/${customerId}/booking`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        })
+        let data = await res.json()
+        setBookingList(data)
+    }
 
 
     const checkIfBookingExists = () => {
-        filteredList = bookingList.filter((book) => (book.customerId === input.customerId &&
-                    book.date === dateValue.$d.toLocaleDateString('en-CA') &&
-                    book.address === input.address &&
-                    book.time === `${timeValue.$d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}:00`
+        filteredList = bookingList.filter((book) => (book.customerId === customerId &&
+            book.date === dateValue.$d.toLocaleDateString('en-CA') &&
+            book.address === input.address &&
+            book.time === `${timeValue.$d.toLocaleTimeString("en-GB", {hour: "2-digit", minute: "2-digit"})}:00`
         ))
     }
 
     const handleChange = (e) => {
-        setInput(prev => ({ ...prev, [e.target.name]: e.target.value }))
+        setInput(prev => ({...prev, [e.target.name]: e.target.value}))
     }
 
-    const handleClick = () => {
+    const handleSave = () => {
 
         checkIfBookingExists()
-        if(!filteredList.length) {
+        if (filteredList.length === 0) {
 
             const date = new Date(dateValue)
-            const formattedTime = `${timeValue.$d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}:00`
+            const formattedTime = `${timeValue.$d.toLocaleTimeString("en-GB", {hour: "2-digit", minute: "2-digit"})}:00`
 
-            fetch("http://localhost:8080/booking", {
+            fetch("http://localhost:8080/customer/booking", {
                 method: "POST",
-                headers: { "Content-type": "application/json" },
+                headers: {
+                    "Content-type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
                 body: JSON.stringify({
                     cleanerId: input.cleanerId,
-                    customerId: input.customerId,
+                    customerId: customerId,
                     description: input.description,
                     address: input.address,
                     date: date,
@@ -70,12 +107,10 @@ const RegisterBooking = () => {
                 }),
             })
                 .then((res) => res.json())
-                .then((data) => console.log(data))
                 .catch((e) => console.log("Error " + e));
-            alert("Booked successfully!")
-    }
-        else {
-            alert("You have already made a booking like this. Please try again with other date/time/address.")
+            setOpen(true)
+        } else {
+            alert("You have already made a booking like this. Please try again with other date, time and/or address.")
         }
     }
 
@@ -91,18 +126,18 @@ const RegisterBooking = () => {
                     Book Your Cleaning
                 </Typography>
 
-                <FormControl>
-                    <FormLabel id="cleaning-type">Cleaning type/service: </FormLabel>
+                <FormControl required={true}>
+                    <FormLabel id="cleaning-type">Cleaning type/service</FormLabel>
                     <RadioGroup
                         aria-labelledby="cleaning-type"
-                        defaultValue="basic"
+                        // defaultValue="basic"
                         name="service"
                         onChange={handleChange}
                     >
-                        <FormControlLabel value="basic" control={<Radio />} label="Basic" />
-                        <FormControlLabel value="topp" control={<Radio />} label="Topp" />
-                        <FormControlLabel value="diamant" control={<Radio />} label="Diamant" />
-                        <FormControlLabel value="window-clean" control={<Radio />} label="Window cleaning" />
+                        <FormControlLabel value="Basic" control={<Radio/>} label="Basic"/>
+                        <FormControlLabel value="Topp" control={<Radio/>} label="Topp"/>
+                        <FormControlLabel value="Diamant" control={<Radio/>} label="Diamant"/>
+                        <FormControlLabel value="Window-clean" control={<Radio/>} label="Window cleaning"/>
                     </RadioGroup>
                 </FormControl>
 
@@ -135,15 +170,22 @@ const RegisterBooking = () => {
                     onChange={handleChange}
                     variant='outlined'
                     sx={{width: 260}}
+                    required={true}
                 />
 
                 <Button
                     color={"primary"}
                     variant={"contained"}
-                    onClick={handleClick}
+                    onClick={handleSave}
                 >
                     Book
                 </Button>
+                <Snackbar
+                    open={open}
+                    autoHideDuration={3000}
+                    onClose={() => setOpen(false)}
+                    message="Booked successfully"
+                />
             </Stack>
         </div>
     )
