@@ -8,24 +8,25 @@ const AssignedCleanings = ({ cleanerData }) => {
 
     useEffect(() => {
 
-        if(cleanerData.id){
+        const getBookings = () => {
+            fetch(`http://localhost:8080/cleaner/${cleanerData.id}/booking`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                }
+            })
+                .then(res => res.json())
+                .then(data => data.sort((a, b) => Date.parse(a.date) - Date.parse(b.date)))
+                .then(booking => setMyBooking(booking))
+        }
+
+        if (cleanerData.id) {
             getBookings()
         }
 
     }, [cleanerData.id])
 
-    const getBookings = () => {
-        fetch(`http://localhost:8080/cleaner/${cleanerData.id}/booking`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + localStorage.getItem("token")
-            }
-        })
-        .then(res => res.json())
-        .then(data => data.sort((a,b) => Date.parse(a.date) - Date.parse(b.date)))
-        .then(booking => setMyBooking(booking))
-    }
 
 
 
@@ -38,30 +39,41 @@ const AssignedCleanings = ({ cleanerData }) => {
             }
         })
             .then(res => res.json())
-            .then(getBookings());
-
- }
 
 
-    return (
-        <div style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            margin: 20
-        }}>
-            <Typography
-                id="title"
-                component="h1"
-                variant="h5"
-                marginTop={2}
-                marginBottom={2}
-            >
-                Assigned Cleanings
-            </Typography>
-            <Grid container spacing={2} wrap={"wrap"} justifyContent={"center"}>
-                {myBooking ?
+        fetch(`http://localhost:8080/cleaner/${cleanerData.id}/booking`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        })
+            .then(res => res.json())
+            .then(data => data.sort((a, b) => Date.parse(a.date) - Date.parse(b.date)))
+            .then(booking => setMyBooking(booking))
+    
+}
+
+
+return (
+    <div style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        margin: 20
+    }}>
+        <Typography
+            id="title"
+            component="h1"
+            variant="h5"
+            marginTop={2}
+            marginBottom={2}
+        >
+            Assigned Cleanings
+        </Typography>
+        <Grid container spacing={2} wrap={"wrap"} justifyContent={"center"}>
+            {myBooking ?
                 myBooking.map((booking) => {
                     return (
                         <Grid item key={booking.bookingId}>
@@ -86,25 +98,25 @@ const AssignedCleanings = ({ cleanerData }) => {
                                 </CardContent>
                                 <CardActions sx={{ justifyContent: "center" }}>
                                     {booking.status === "Performed" ?
-                                    <Button
-                                        variant="outlined"
-                                        color="success"
-                                        onClick={() => handleDone(booking.bookingId)}
-                                    >
-                                        Done
-                                    </Button> : 
-                                    <Button
-                                        variant='outlined'
-                                        disabled
-                                    >Done</Button>}
+                                        <Button
+                                            variant="outlined"
+                                            color="success"
+                                            onClick={() => handleDone(booking.bookingId)}
+                                        >
+                                            Done
+                                        </Button> :
+                                        <Button
+                                            variant='outlined'
+                                            disabled
+                                        >Done</Button>}
                                 </CardActions>
                             </Card>
                         </Grid>
                     )
                 }) : null}
-            </Grid>
-        </div>
-    )
+        </Grid>
+    </div>
+)
 }
 
 export default AssignedCleanings
