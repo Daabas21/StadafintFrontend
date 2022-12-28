@@ -23,7 +23,6 @@ const NavbarStart = () => {
           <Button color="inherit" component={Link} to="/RegisterUser">
             Create Account
           </Button>
-
           <Button color="inherit" component={Link} to="/login">
             Login
           </Button>

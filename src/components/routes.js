@@ -6,6 +6,7 @@ import AdminView from "./views/AdminView";
 import RegisterBooking from "./views/RegisterBooking";
 import Login from "./views/Login";
 import Home from "./views/Home";
+import CustomerBookings from "./views/CustomerBookings";
 
 function AppRouter() {
   return (
@@ -16,6 +17,7 @@ function AppRouter() {
       <Route path="/registeruser" element={<RegisterUser />} />
       <Route path="/admin" element={<AdminView />} />
       <Route path="/booking" element={<RegisterBooking />} />
+        <Route path="/my-bookings" element={<CustomerBookings />} />
       <Route path="/logout" element={<CustomerView />} />
       <Route path="/login" element={<Login />} />
     </Routes>
