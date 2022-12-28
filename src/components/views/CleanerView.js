@@ -1,5 +1,6 @@
 import { Button, Stack, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
+import AssignedCleanings from '../cleaner/AssignedCleanings';
 
 function CleanerView() {
 
@@ -100,6 +101,7 @@ function CleanerView() {
                 
             </div>
       </Stack>
+      <AssignedCleanings cleanerData={cleanerData}/>
     </div>
   );
 }
