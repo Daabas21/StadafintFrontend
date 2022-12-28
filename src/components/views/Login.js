@@ -1,69 +1,73 @@
-import { Button, TextField } from '@mui/material'
-import { Stack } from '@mui/system'
-import React, { useState } from 'react'
+import { Button, TextField } from "@mui/material";
+import { Stack } from "@mui/system";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const setToken = (token) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("lastLoginTime", new Date(Date.now()).getTime);
-}
+  localStorage.setItem("token", token);
+  localStorage.setItem("lastLoginTime", new Date(Date.now()).getTime);
+};
 
-// const deleteToken = () => {
-//     localStorage.removeItem("token");
-//     localStorage.removeItem("lasLoginTime");
-// }
+const Login = ({ logout }) => {
+  const navigate = useNavigate();
+  const [input, setInput] = useState({ email: "", password: "" });
 
-const Login = () => {
-
-    const[input, setInput] = useState({email: "", password: ""})
-
-    const handleChange = (e) => {
-        setInput(prev => ({...prev, [e.target.name]: e.target.value}))
+  useEffect(() => {
+    if (logout) {
+      deleteToken();
     }
+  }, []);
 
-    const handleLogin = async () => {
+  const deleteToken = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("lasLoginTime");
+    document.location.href = "/";
+  };
 
-        const res = await fetch('http://localhost:8080/auth/login',{
-                method:"POST",
-                body: JSON.stringify(input),
-                headers:{
-                    'Content-Type': 'application/json'
-                }}
-                
-            )
-         const data = await res.json()
-         const token = data.token
+  const handleChange = (e) => {
+    setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
-         setToken(token);
-    }
-    
+  const handleLogin = async () => {
+    const res = await fetch("http://localhost:8080/auth/login", {
+      method: "POST",
+      body: JSON.stringify(input),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    const token = data.token;
+
+    setToken(token);
+    document.location.href = "/";
+  };
 
   return (
     <div>
-        <Stack spacing={2} alignItems="center">
-            <TextField
-                id='email'
-                label="email"
-                variant='standard'
-                value={input.email}
-                name='email'
-                onChange={handleChange}
-            />
-            <TextField
-                id='password'
-                label='password'
-                variant='standard'
-                value={input.password}
-                name= 'password'
-                onChange={handleChange}
-            />
-            <Button
-                variant='contained'
-                color='success'
-                onClick={handleLogin}
-            >LOGIN</Button>
-        </Stack>
+      <Stack spacing={2} alignItems="center">
+        <TextField
+          id="email"
+          label="email"
+          variant="standard"
+          value={input.email}
+          name="email"
+          onChange={handleChange}
+        />
+        <TextField
+          id="password"
+          label="password"
+          variant="standard"
+          value={input.password}
+          name="password"
+          onChange={handleChange}
+        />
+        <Button variant="contained" color="success" onClick={handleLogin}>
+          LOGIN
+        </Button>
+      </Stack>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

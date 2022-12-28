@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
-const NavbarStart = () => {
+const NavbarAdmin = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -17,18 +17,24 @@ const NavbarStart = () => {
             to="/"
             sx={{ flexGrow: 1, textDecoration: "none", color: "white" }}
           >
-            Städa fint
+            Städa fint - Admin
           </Typography>
 
-          <Button color="inherit" component={Link} to="/RegisterUser">
-            Create Account
+          <Button color="inherit" component={Link} to="/">
+            Employees
           </Button>
-          <Button color="inherit" component={Link} to="/login">
-            Login
+          <Button color="inherit" component={Link} to="/">
+            Customers
+          </Button>
+          <Button color="inherit" component={Link} to="/admin">
+            Bookings
+          </Button>
+          <Button color="inherit" component={Link} to="/logout">
+            Log out
           </Button>
         </Toolbar>
       </AppBar>
     </Box>
   );
 };
-export default NavbarStart;
+export default NavbarAdmin;
