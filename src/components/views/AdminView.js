@@ -139,23 +139,11 @@ const AdminView = () => {
             Date: ${booking.date} *
             Time: ${booking.time} *
             Description: ${booking.description} *
+            Feedback: ${booking.service} *
+            ${booking.workingTime} hr/hrs
            
             `}
                   />
-                  {/* <ListItemText
-                    secondary={
-                      booking.service === null
-                        ? ""
-                        : `Feedback: ${booking.service} `
-                    }
-                  />
-                  <ListItemText
-                    secondary={
-                      booking.workingTime <= 0
-                        ? ""
-                        : ` ${booking.workingTime} hr/hrs `
-                    }
-                  /> */}
 
                   <div>
                     {booking.status === "Unconfirmed" ||
