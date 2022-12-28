@@ -15,29 +15,85 @@ import {
 import AdminBookingCardView from "./AdminBookingCardView";
 
 const AdminView = () => {
-  const [bookings, setBookings] = useState([]);
-  const [cleaners, setCleaners] = useState([]);
-  const [customers, setCustomers] = useState([]);
+  const [bookings, setBookings] = useState(null);
+  const [cleaners, setCleaners] = useState(null);
+  const [customers, setCustomers] = useState(null);
   const [bookingView, setBookingView] = useState(false);
   const [currentViewBooking, setCurrentViewBooking] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8080/booking")
-      .then((res) => res.json())
-      .then((data) => {
-        setBookings(data);
-      });
-    fetch("http://localhost:8080/cleaner")
-      .then((res) => res.json())
-      .then((data) => {
-        setCleaners(data);
-      });
-    fetch("http://localhost:8080/customer")
-      .then((res) => res.json())
-      .then((data) => {
-        setCustomers(data);
-      });
-  }, []);
+    if (!bookings) {
+      fetch("http://localhost:8080/admin/booking", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setBookings(data);
+        });
+    }
+    if (!cleaners) {
+      fetch("http://localhost:8080/admin/cleaner", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setCleaners(data);
+        });
+    }
+    if (!customers) {
+      fetch("http://localhost:8080/admin/customer", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setCustomers(data);
+        });
+    }
+  }, [bookings, cleaners, customers]);
+
+  useEffect(() => {
+    if (!cleaners) {
+      fetch("http://localhost:8080/admin/cleaner", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setCleaners(data);
+        });
+    }
+  }, [cleaners]);
+
+  useEffect(() => {
+    if (!customers) {
+      fetch("http://localhost:8080/admin/customer", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setCustomers(data);
+        });
+    }
+  }, [customers]);
 
   const handleCheckBox = (e, b) => {
     const bookingsCopy = [...bookings];
@@ -62,7 +118,10 @@ const AdminView = () => {
   const handleClick = (booking) => {
     fetch(`http://localhost:8080/booking/${booking.bookingId}`, {
       method: "PUT",
-      headers: { "Content-type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
       body: JSON.stringify(booking),
     })
       .then((res) => res.json())
@@ -139,23 +198,12 @@ const AdminView = () => {
             Date: ${booking.date} *
             Time: ${booking.time} *
             Description: ${booking.description} *
+            Feedback: ${booking.service} *
+            ${booking.workingTime} hr/hrs *
+            ${booking.status} status
            
             `}
                   />
-                  {/* <ListItemText
-                    secondary={
-                      booking.service === null
-                        ? ""
-                        : `Feedback: ${booking.service} `
-                    }
-                  />
-                  <ListItemText
-                    secondary={
-                      booking.workingTime <= 0
-                        ? ""
-                        : ` ${booking.workingTime} hr/hrs `
-                    }
-                  /> */}
 
                   <div>
                     {booking.status === "Unconfirmed" ||
