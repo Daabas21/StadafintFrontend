@@ -17,9 +17,9 @@ function AppRouter() {
       <Route path="/registeruser" element={<RegisterUser />} />
       <Route path="/admin" element={<AdminView />} />
       <Route path="/booking" element={<RegisterBooking />} />
-        <Route path="/my-bookings" element={<CustomerBookings />} />
-      <Route path="/logout" element={<CustomerView />} />
+      <Route path="/my-bookings" element={<CustomerBookings />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/logout" element={<Login logout={true} />} />
     </Routes>
   );
 }

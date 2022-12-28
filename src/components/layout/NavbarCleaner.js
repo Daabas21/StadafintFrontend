@@ -25,7 +25,7 @@ const NavbarCleaner = () => {
           <Button color="inherit" component={Link} to="/admin">
             Bookings
           </Button>
-          <Button color="inherit" component={Link} to="/login">
+          <Button color="inherit" component={Link} to="/logout">
             Log out
           </Button>
         </Toolbar>

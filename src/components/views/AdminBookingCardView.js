@@ -47,12 +47,15 @@ const AdminBookingCardView = (props) => {
   const handleClick = (e) => {
     fetch(`http://localhost:8080/booking/${booking.bookingId}`, {
       method: "PUT",
-      headers: { "Content-type": "application/json" },
+      headers: { "Content-type": "application/json",
+      "Authorization": "Bearer " + localStorage.getItem("token") },
       body: JSON.stringify(booking),
     })
       .then((res) => res.json())
       .then((data) => setBookingView(false));
   };
+
+  
 
   return (
     <Card sx={{ minWidth: 275 }}>

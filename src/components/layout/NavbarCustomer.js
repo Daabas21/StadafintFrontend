@@ -22,13 +22,13 @@ const NavbarCustomer = () => {
           <Button color="inherit" component={Link} to="/customer">
             My Page
           </Button>
-          <Button color="inherit" component={Link} to="/">
-            Bookings
+          <Button color="inherit" component={Link} to="/my-bookings">
+            My Bookings
           </Button>
           <Button color="inherit" component={Link} to="/booking">
             Book
           </Button>
-          <Button color="inherit" component={Link} to="/login">
+          <Button color="inherit" component={Link} to="/logout">
             Log out
           </Button>
         </Toolbar>
