@@ -20,7 +20,7 @@ const NavbarAdmin = () => {
             Städa fint - Admin
           </Typography>
 
-          <Button color="inherit" component={Link} to="/">
+          <Button color="inherit" component={Link} to="/admincleaners">
             Employees
           </Button>
           <Button color="inherit" component={Link} to="/">

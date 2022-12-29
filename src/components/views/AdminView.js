@@ -21,47 +21,47 @@ const AdminView = () => {
   const [bookingView, setBookingView] = useState(false);
   const [currentViewBooking, setCurrentViewBooking] = useState(null);
 
-  useEffect(() => {
-    if (!bookings) {
-      fetch("http://localhost:8080/admin/booking", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setBookings(data);
-        });
-    }
-    if (!cleaners) {
-      fetch("http://localhost:8080/admin/cleaner", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setCleaners(data);
-        });
-    }
-    if (!customers) {
-      fetch("http://localhost:8080/admin/customer", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setCustomers(data);
-        });
-    }
-  }, [bookings, cleaners, customers]);
+  // useEffect(() => {
+  //   if (!bookings) {
+  //     fetch("http://localhost:8080/admin/booking", {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "Bearer " + localStorage.getItem("token"),
+  //       },
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setBookings(data);
+  //       });
+  //   }
+  //   if (!cleaners) {
+  //     fetch("http://localhost:8080/admin/cleaner", {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "Bearer " + localStorage.getItem("token"),
+  //       },
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setCleaners(data);
+  //       });
+  //   }
+  //   if (!customers) {
+  //     fetch("http://localhost:8080/admin/customer", {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "Bearer " + localStorage.getItem("token"),
+  //       },
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setCustomers(data);
+  //       });
+  //   }
+  // }, [bookings, cleaners, customers]);
 
   useEffect(() => {
     if (!cleaners) {
