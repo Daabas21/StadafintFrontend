@@ -23,7 +23,7 @@ const NavbarAdmin = () => {
           <Button color="inherit" component={Link} to="/admincleaners">
             Employees
           </Button>
-          <Button color="inherit" component={Link} to="/">
+          <Button color="inherit" component={Link} to="/admincustomers">
             Customers
           </Button>
           <Button color="inherit" component={Link} to="/admin">

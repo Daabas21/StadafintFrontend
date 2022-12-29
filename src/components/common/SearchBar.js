@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
 import { Box, TextField } from "@mui/material";
 
 const SearchBar = (props) => {
-  const { cleaners, setFilteredData } = props;
+  const { users, setFilteredData } = props;
 
   const handleChange = (e) => {
     const searchInput = e.target.value;
     console.log(searchInput);
 
-    const newFilter = cleaners.filter((c) => {
+    const newFilter = users.filter((c) => {
       return c.name.toLowerCase().includes(searchInput.toLowerCase());
     });
 

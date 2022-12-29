@@ -7,49 +7,48 @@ import {
   CardActions,
   CardContent,
   TextField,
+  ListItem,
 } from "@mui/material";
 import CardView from "../common/CardView";
 
-const AdminCleanerCard = ({
-  cleaner,
-  cleaners,
+const AdminCustomerCard = ({
+  customer,
+  customers,
   setBookingView,
-  setCleaners,
+  setCustomers,
 }) => {
-  const usertype = "cleaner";
+  const usertype = "customer";
 
   //   const handleChange = (e, c) => {
   //     c[e.target.name] = e.target.value;
 
-  //     let cleanerCopy = [...cleaners];
+  //     let customerCopy = [...customers];
 
-  //     cleanerCopy[cleanerCopy.findIndex((cl) => cl.id === c.id)] = { ...c };
+  //     customerCopy[customerCopy.findIndex((cl) => cl.id === c.id)] = { ...c };
 
-  //     setCleaners(cleanerCopy);
-  //     console.log(cleanerCopy);
+  //     setCustomers(customerCopy);
+  //     console.log(customerCopy);
   //   };
 
-  //   const handleClick = (cleaner) => {
-  //     fetch(`http://localhost:8080/admin/${cleaner.id}`, {
+  //   const handleClick = (customer) => {
+  //     fetch(`http://localhost:8080/admin/customer/${customer.id}`, {
   //       method: "PUT",
   //       headers: {
   //         "Content-type": "application/json",
   //         Authorization: "Bearer " + localStorage.getItem("token"),
   //       },
-  //       body: JSON.stringify(cleaner),
-  //     })
-  //       .then((res) => console.log(res.json()))
-  //       .catch((e) => console.log(e));
+  //       body: JSON.stringify(customer),
+  //     }).catch((e) => console.log(e));
 
   //     setBookingView(false);
   //   };
 
   return (
     <CardView
-      user={cleaner}
-      users={cleaners}
+      user={customer}
+      users={customers}
       setBookingView={setBookingView}
-      setUsers={setCleaners}
+      setUsers={setCustomers}
       usertype={usertype}
     />
     // <Card sx={{ minWidth: 275 }}>
@@ -57,21 +56,21 @@ const AdminCleanerCard = ({
     //     <ListItemText
     //       primary={
     //         <Typography variant="h6" style={{ color: "#1976d2" }}>
-    //           ID:{cleaner.id} - {cleaner.name.toUpperCase()}
+    //           ID:{customer.id} - {customer.name.toUpperCase()}
     //         </Typography>
     //       }
     //     />
     //     <ListItemText
     //       secondary={
     //         <Typography style={{ color: "#1976d2" }}>
-    //           Email: {cleaner.email}
+    //           Email: {customer.email}
     //         </Typography>
     //       }
     //     />
     //     <ListItemText
     //       secondary={
     //         <Typography style={{ color: "#1976d2" }}>
-    //           Role: {cleaner.roles}
+    //           Role: {customer.roles}
     //         </Typography>
     //       }
     //     />
@@ -87,19 +86,18 @@ const AdminCleanerCard = ({
     //       <TextField
     //         id="outlined-basic"
     //         variant="outlined"
-    //         label={cleaner.address}
-    //         defaultValue={cleaner.address}
+    //         label={customer.address}
+    //         defaultValue={customer.address}
     //         name="address"
-    //         onChange={(e) => handleChange(e, cleaner)}
+    //         onChange={(e) => handleChange(e, customer)}
     //       />
-
     //       <TextField
     //         id="outlined-basic"
     //         variant="outlined"
-    //         label={cleaner.telnum}
-    //         defaultValue={cleaner.telnum}
+    //         label={customer.telnum}
+    //         defaultValue={customer.telnum}
     //         name="telnum"
-    //         onChange={(e) => handleChange(e, cleaner)}
+    //         onChange={(e) => handleChange(e, customer)}
     //       />
     //     </div>
     //   </CardContent>
@@ -109,7 +107,7 @@ const AdminCleanerCard = ({
     //       type={"submit"}
     //       color={"primary"}
     //       variant={"outlined"}
-    //       onClick={() => handleClick(cleaner)}
+    //       onClick={() => handleClick(customer)}
     //     >
     //       Save
     //     </Button>
@@ -118,4 +116,4 @@ const AdminCleanerCard = ({
   );
 };
 
-export default AdminCleanerCard;
+export default AdminCustomerCard;
