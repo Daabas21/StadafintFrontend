@@ -1,7 +1,7 @@
 import { Button, TextField } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const setToken = (token) => {
   localStorage.setItem("token", token);
@@ -9,7 +9,7 @@ const setToken = (token) => {
 };
 
 const Login = ({ logout }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [input, setInput] = useState({ email: "", password: "" });
 
   useEffect(() => {
