@@ -40,17 +40,19 @@ const AssignedCleanings = ({ cleanerData }) => {
         })
             .then(res => res.json())
 
+        setTimeout(() => {
 
-        fetch(`http://localhost:8080/cleaner/${cleanerData.id}/booking`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + localStorage.getItem("token")
-            }
-        })
-            .then(res => res.json())
-            .then(data => data.sort((a, b) => Date.parse(a.date) - Date.parse(b.date)))
-            .then(booking => setMyBooking(booking))
+            fetch(`http://localhost:8080/cleaner/${cleanerData.id}/booking`, {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                }
+            })
+                .then(res => res.json())
+                .then(data => data.sort((a, b) => Date.parse(a.date) - Date.parse(b.date)))
+                .then(booking => setMyBooking(booking))
+        }, [300])
+
     
 }
 
