@@ -17,7 +17,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 
-const AdminBookingCardView = (props) => {
+const AdminBookingCard = (props) => {
   const { booking, cleaner, cleaners, bookings, setBookings, setBookingView } =
     props;
 
@@ -43,17 +43,17 @@ const AdminBookingCardView = (props) => {
     setBookings(bookingsCopy);
   };
   const handleClick = (e) => {
-    fetch(`http://localhost:8080/booking/${booking.bookingId}`, {
+    fetch(`http://localhost:8080/admin/booking/${booking.bookingId}`, {
       method: "PUT",
-      headers: { "Content-type": "application/json",
-      "Authorization": "Bearer " + localStorage.getItem("token") },
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
       body: JSON.stringify(booking),
     })
       .then((res) => res.json())
       .then((data) => setBookingView(false));
   };
-
-  
 
   return (
     <Card sx={{ minWidth: 275 }}>
@@ -132,4 +132,4 @@ const AdminBookingCardView = (props) => {
   );
 };
 
-export default AdminBookingCardView;
+export default AdminBookingCard;

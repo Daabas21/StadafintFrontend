@@ -3,6 +3,7 @@ import CleanerView from "./views/CleanerView";
 import CustomerView from "./views/CustomerView";
 import RegisterUser from "./views/RegisterUser";
 import AdminView from "./views/AdminView";
+import AdminCleanerView from "./views/AdminCleanerView";
 import RegisterBooking from "./views/RegisterBooking";
 import Login from "./views/Login";
 import Home from "./views/Home";
@@ -16,6 +17,7 @@ function AppRouter() {
       <Route path="/customer" element={<CustomerView />} />
       <Route path="/registeruser" element={<RegisterUser />} />
       <Route path="/admin" element={<AdminView />} />
+      <Route path="/admincleaners" element={<AdminCleanerView />} />
       <Route path="/booking" element={<RegisterBooking />} />
       <Route path="/my-bookings" element={<CustomerBookings />} />
       <Route path="/login" element={<Login />} />

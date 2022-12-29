@@ -11,8 +11,10 @@ import {
   MenuItem,
   Typography,
   FormControl,
+  FormControlLabel,
+  Box,
 } from "@mui/material";
-import AdminBookingCardView from "./AdminBookingCardView";
+import AdminBookingCard from "./AdminBookingCard";
 
 const AdminView = () => {
   const [bookings, setBookings] = useState(null);
@@ -103,6 +105,7 @@ const AdminView = () => {
       }
     });
     setBookings(bookingsCopy);
+    handleClick(b);
   };
 
   const handleChange = (e, b) => {
@@ -116,7 +119,7 @@ const AdminView = () => {
   };
 
   const handleClick = (booking) => {
-    fetch(`http://localhost:8080/booking/${booking.bookingId}`, {
+    fetch(`http://localhost:8080/admin/booking/${booking.bookingId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -158,7 +161,7 @@ const AdminView = () => {
   return (
     <div>
       {bookingView ? (
-        <AdminBookingCardView
+        <AdminBookingCard
           booking={currentViewBooking.booking}
           cleaner={currentViewBooking.cleaner}
           cleaners={cleaners}
@@ -209,35 +212,53 @@ const AdminView = () => {
                     {booking.status === "Unconfirmed" ||
                     booking.status === "UnConfirmed" ? (
                       <div>
-                        <FormControl sx={{ m: 1, minWidth: 110 }}>
-                          <InputLabel id="demo-simple-select-label">
-                            Cleaners
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={""}
-                            label="Cleaner"
-                            onChange={(e) => handleChange(e, booking)}
-                          >
-                            {findAvailableCleaners(booking).map((cleaner) => (
-                              <MenuItem key={cleaner.id} value={cleaner.id}>
-                                {cleaner.name}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                        <Checkbox
-                          onChange={(e) => handleCheckBox(e, booking)}
-                          inputProps={{ "aria-label": "controlled" }}
-                          checked={false}
-                        />
+                        <Box
+                          sx={{
+                            width: 300,
+                          }}
+                        >
+                          <FormControl sx={{ m: 1, minWidth: 110 }}>
+                            <InputLabel id="demo-simple-select-label">
+                              Cleaners
+                            </InputLabel>
+
+                            <Select
+                              sx={{ gap: 1 }}
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={""}
+                              label="Cleaner"
+                              onChange={(e) => handleChange(e, booking)}
+                            >
+                              {findAvailableCleaners(booking).map((cleaner) => (
+                                <MenuItem key={cleaner.id} value={cleaner.id}>
+                                  {cleaner.name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                          <FormControlLabel
+                            label="Unconfirmed"
+                            control={
+                              <Checkbox
+                                onChange={(e) => handleCheckBox(e, booking)}
+                                inputProps={{ "aria-label": "controlled" }}
+                                checked={false}
+                              />
+                            }
+                          />
+                        </Box>
                       </div>
                     ) : (
-                      <Checkbox disabled checked />
+                      <Box sx={{ width: 300, justifyContent: "flex-end" }}>
+                        <FormControlLabel
+                          label="Confirmed"
+                          control={<Checkbox disabled checked />}
+                        />{" "}
+                      </Box>
                     )}
                   </div>
-                  <Button
+                  {/* <Button
                     type={"submit"}
                     color={"primary"}
                     variant={"outlined"}
@@ -245,7 +266,7 @@ const AdminView = () => {
                     margin="normal"
                   >
                     Save
-                  </Button>
+                  </Button> */}
                 </ListItemButton>
               </ListItem>
             );
