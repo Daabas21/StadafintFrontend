@@ -1,5 +1,5 @@
 import {
-    Grid,
+    Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
     Typography
 } from "@mui/material";
 import BookingCard from "../common/BookingCard";
@@ -36,6 +36,59 @@ const BookingHistory = ({ bookingList }) => {
                         );
                     })}
             </Grid>
+
+            <TableContainer component={Paper}>
+                <Table sx={{minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>
+                                <Typography variant="h5" component="div">
+                                    Address
+                                </Typography>
+                            </TableCell>
+                            <TableCell>
+                                <Typography variant="h5" component="div">
+                                    Date
+                                </Typography>
+                            </TableCell>
+                            <TableCell>
+                                <Typography variant="h5" component="div">
+                                    Time
+                                </Typography>
+                            </TableCell>
+                            <TableCell>
+                                <Typography variant="h5" component="div">
+                                    Service
+                                </Typography>
+                            </TableCell>
+                            <TableCell>
+                                <Typography variant="h5" component="div">
+                                    Status
+                                </Typography>
+                            </TableCell>
+
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {bookings.filter(booking => booking.status === "confirmed")
+                            .map((row) => (
+                            <TableRow
+                                key={row.bookingId}
+                            >
+                                <TableCell component="th" scope="row">
+                                    {row.address}
+                                </TableCell>
+                                <TableCell>{row.date}</TableCell>
+                                <TableCell>{row.time}</TableCell>
+                                <TableCell>{row.service}</TableCell>
+                                <TableCell>{row.status}</TableCell>
+
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
 
         </div>
     )
