@@ -7,8 +7,9 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-// import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import * as React from "react";
+import BookingHistory from "./BookingHistory";
+import BookingCard from "../common/BookingCard";
 
 const CustomerBookings = () => {
   const [bookingList, setBookingList] = useState([]);
@@ -86,9 +87,11 @@ const CustomerBookings = () => {
         Bookings
       </Typography>
       <Grid container spacing={2} wrap={"wrap"} justifyContent={"center"}>
-        {sortedBookings.map((booking, index) => {
+        {sortedBookings
+            .filter(booking => booking.status !== "Performed")
+            .map((booking, index) => {
           return (
-            <Grid item key={booking.bookingId}>
+                <Grid item key={booking.bookingId}>
               <Card
                 key={booking.id}
                 sx={{ minWidth: 250, marginTop: 2, textAlign: "center" }}
@@ -129,6 +132,7 @@ const CustomerBookings = () => {
           );
         })}
       </Grid>
+      <BookingHistory bookingList={bookingList}/>
     </div>
   );
 };
