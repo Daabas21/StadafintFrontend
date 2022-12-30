@@ -11,7 +11,9 @@ const Home = () => {
                 <p className="hero-subtitle">Your local cleaning company</p>
                 <p className="hero-subtitle">we make your everyday a little bit easier...</p>
 
-                <Button sx={{marginTop: "2rem"}} size="large" className="hero-button" variant="contained" component={Link} to="/register-booking">Book a Cleaning</Button>
+                <Button sx={{marginTop: "2rem"}} size="large" className="hero-button" variant="contained" component={Link} to="/login">
+                    Book a Cleaning
+                </Button>
         </section>
 
     )
