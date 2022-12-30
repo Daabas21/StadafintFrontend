@@ -9,7 +9,7 @@ import {
   TextField,
   ListItem,
 } from "@mui/material";
-import CardView from "../common/CardView";
+import CardView from "../../common/CardView";
 
 const AdminCustomerCard = ({
   customer,
