@@ -22,7 +22,7 @@ const NavbarCleaner = () => {
           <Button color="inherit" component={Link} to="/cleaner">
             My Page
           </Button>
-          <Button color="inherit" component={Link} to="/admin">
+          <Button color="inherit" component={Link} to="/cleanerbookings">
             Bookings
           </Button>
           <Button color="inherit" component={Link} to="/logout">

@@ -20,7 +20,6 @@ const CardView = (props) => {
     userCopy[userCopy.findIndex((cl) => cl.id === c.id)] = { ...c };
 
     setUsers(userCopy);
-    console.log(userCopy);
   };
 
   const handleClick = (user) => {
@@ -30,7 +29,13 @@ const CardView = (props) => {
         "Content-type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify({
+        name: user.name,
+        address: user.address,
+        telnum: user.telnum,
+        email: user.email,
+        password: user.password,
+      }),
     }).catch((e) => console.log(e));
 
     setBookingView(false);

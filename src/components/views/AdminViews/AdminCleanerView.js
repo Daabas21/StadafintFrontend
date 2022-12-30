@@ -29,13 +29,11 @@ const AdminCleanerView = () => {
         .then((res) => res.json())
         .then((data) => {
           setCleaners(data);
-          console.log(data);
         });
     }
   }, [cleaners]);
 
   const toggleBookingView = (cleaner) => {
-    console.log("IS CLICKED", cleaner);
     setBookingView(true);
     setCurrentViewBooking({
       cleaner: cleaner,
