@@ -1,27 +1,14 @@
 import { useEffect, useState } from "react";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Button,
   Card,
   CardActions,
   CardContent,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Divider,
   Grid,
-  List,
-  ListItem,
-  ListItemText,
-  Stack,
   Typography,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import * as React from "react";
+import BookingHistory from "./BookingHistory";
 
 const CustomerBookings = () => {
   const [bookingList, setBookingList] = useState([]);
@@ -142,6 +129,7 @@ const CustomerBookings = () => {
           );
         })}
       </Grid>
+      <BookingHistory bookingList={bookingList} setBookingList={setBookingList}/>
     </div>
   );
 };
