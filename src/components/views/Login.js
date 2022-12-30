@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import {Button, Link, TextField} from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
@@ -65,6 +65,10 @@ const Login = ({ logout }) => {
         <Button variant="contained" color="success" onClick={handleLogin}>
           LOGIN
         </Button>
+        <div>
+          You don't have an account yet?
+          <div style={{textAlign: "center"}}><Link href="/registeruser">Sign Up</Link> here.</div>
+        </div>
       </Stack>
     </div>
   );
