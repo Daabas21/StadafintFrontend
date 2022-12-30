@@ -7,19 +7,19 @@ import {
   Typography,
 } from "@mui/material";
 import SearchBar from "../common/SearchBar";
-import AdminCleanerCard from "./AdminCleanerCard";
+import AdminCustomerCard from "./AdminCustomerCard";
 
-const AdminCleanerView = () => {
-  const [cleaners, setCleaners] = useState(null);
+const AdminCustomerView = () => {
+  const [customers, setCustomers] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
   const [bookingView, setBookingView] = useState(false);
   const [currentViewBooking, setCurrentViewBooking] = useState(null);
 
   useEffect(() => {
-    setFilteredData(cleaners);
+    setFilteredData(customers);
 
-    if (!cleaners) {
-      fetch("http://localhost:8080/admin/cleaner", {
+    if (!customers) {
+      fetch("http://localhost:8080/admin/customer", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -28,52 +28,52 @@ const AdminCleanerView = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          setCleaners(data);
+          setCustomers(data);
           console.log(data);
         });
     }
-  }, [cleaners]);
+  }, [customers]);
 
-  const toggleBookingView = (cleaner) => {
-    console.log("IS CLICKED", cleaner);
+  const toggleBookingView = (customer) => {
+    console.log("IS CLICKED", customer);
     setBookingView(true);
     setCurrentViewBooking({
-      cleaner: cleaner,
+      customer: customer,
     });
   };
 
   return (
     <div>
       <Typography id="modal-modal-title" variant="h4" align="center">
-        Cleaners
+        Customer
       </Typography>
       <SearchBar
-        users={cleaners}
+        users={customers}
         filteredData={filteredData}
         setFilteredData={setFilteredData}
       />
       {bookingView ? (
-        <AdminCleanerCard
-          cleaner={currentViewBooking.cleaner}
-          cleaners={cleaners}
-          setCleaners={setCleaners}
+        <AdminCustomerCard
+          customer={currentViewBooking.customer}
+          customers={customers}
+          setCustomers={setCustomers}
           setBookingView={setBookingView}
         />
       ) : null}
       {filteredData
-        ? filteredData.map((cleaner) => {
+        ? filteredData.map((customer) => {
             return (
-              <ListItem key={cleaner.id}>
+              <ListItem key={customer.id}>
                 <ListItemButton>
                   <ListItemText
                     primary={
-                      <Button onClick={() => toggleBookingView(cleaner)}>
+                      <Button onClick={() => toggleBookingView(customer)}>
                         <Typography variant="h6" style={{ color: "#1976d2" }}>
-                          Cleaner: {cleaner.name}
+                          Customer: {customer.name}
                         </Typography>
                       </Button>
                     }
-                    secondary={`ID: ${cleaner.id} * Adress: ${cleaner.address} * Email: ${cleaner.email} * Phonenumber: ${cleaner.telnum} *   Role: ${cleaner.roles} *  
+                    secondary={`ID: ${customer.id} * Adress: ${customer.address} * Email: ${customer.email} * Phonenumber: ${customer.telnum} *
         
            
             `}
@@ -87,4 +87,4 @@ const AdminCleanerView = () => {
   );
 };
 
-export default AdminCleanerView;
+export default AdminCustomerView;
