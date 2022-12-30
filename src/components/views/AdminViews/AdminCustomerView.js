@@ -29,13 +29,11 @@ const AdminCustomerView = () => {
         .then((res) => res.json())
         .then((data) => {
           setCustomers(data);
-          console.log(data);
         });
     }
   }, [customers]);
 
   const toggleBookingView = (customer) => {
-    console.log("IS CLICKED", customer);
     setBookingView(true);
     setCurrentViewBooking({
       customer: customer,
