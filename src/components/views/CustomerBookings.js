@@ -1,15 +1,10 @@
 import {useEffect, useState} from "react";
-import {
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    Grid,
-    Typography,
-} from "@mui/material";
-import * as React from "react";
+import { IconButton, Typography } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
+import {DataGrid} from '@mui/x-data-grid';
+
 import BookingHistory from "./BookingHistory";
-import BookingCard from "../common/BookingCard";
+
 
 const CustomerBookings = () => {
     const [bookingList, setBookingList] = useState([]);
@@ -46,10 +41,6 @@ const CustomerBookings = () => {
         setBookingList(data);
     };
 
-    let sortedBookings = bookingList.sort(
-        (a, b) => Date.parse(a.date) - Date.parse(b.date)
-    );
-
     const handleDelete = async (id) => {
         const choice = window.confirm(
             "Are you sure you want to delete this booking? This action can not be undone."
@@ -62,19 +53,41 @@ const CustomerBookings = () => {
                     Authorization: "Bearer " + localStorage.getItem("token"),
                 },
             });
-
             await getData();
         }
     };
 
+    const onClick = (e, row) => {
+        e.stopPropagation();
+        handleDelete(row.bookingId)
+    };
+
+    const columns = [
+        { field: 'address', headerName: 'Address', width: 200 },
+        { field: 'date', headerName: 'Date', width: 200 },
+        { field: 'time', headerName: 'Time', width: 200 },
+        { field: 'service', headerName: 'Service', width: 180 },
+        { field: 'status', headerName: 'Status', width: 200 },
+        { field: 'actions', headerName: 'Unbook', width: 200,
+            renderCell: (params) => {
+                return (
+                    <IconButton
+                        variant="outlined"
+                        color="error"
+                        onClick={(e) => onClick(e, params.row)}
+                    >
+                        <CloseIcon/>
+                    </IconButton>
+                );
+            }
+        }
+    ];
+
     return (
         <div
             style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
                 margin: 20,
+                textAlign: "center"
             }}
         >
             <Typography
@@ -86,53 +99,20 @@ const CustomerBookings = () => {
             >
                 Bookings
             </Typography>
-            <Grid container spacing={2} wrap={"wrap"} justifyContent={"center"}>
-                {sortedBookings
-                    .filter(booking => booking.status !== "Performed")
-                    .map((booking, index) => {
-                        return (
-                            <Grid item key={booking.bookingId}>
-                                <Card
-                                    key={booking.id}
-                                    sx={{minWidth: 250, marginTop: 2, textAlign: "center"}}
-                                >
-                                    <CardContent>
-                                        <Typography
-                                            sx={{fontSize: 14}}
-                                            color="text.secondary"
-                                            gutterBottom
-                                        >
-                                            {booking.date}
-                                        </Typography>
-                                        <Typography variant="h5" component="div">
-                                            {booking.address}
-                                        </Typography>
-                                        <Typography sx={{mb: 1.5}} color="text.secondary">
-                                            {booking.time}
-                                        </Typography>
-                                        <Typography variant="body2">
-                                            Service: {booking.service ? booking.service : "none"}
-                                            <br/>
-                                            Status: {booking.status}
-                                            {/*<br/>*/}
-                                            {/*Description: {booking.description ? booking.description : "none"}*/}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions sx={{justifyContent: "center"}}>
-                                        <Button
-                                            variant="outlined"
-                                            color="error"
-                                            onClick={() => handleDelete(booking.bookingId)}
-                                        >
-                                            Unbook
-                                        </Button>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        );
-                    })}
-            </Grid>
+
+            <div style={{height: 400, width: '100%'}}>
+                <DataGrid
+                    rows={bookingList.filter(booking => booking.status !== "Performed")}
+                    getRowId={(row) => row?.bookingId}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                    onRowClick={handleDelete}
+                />
+            </div>
+
             <BookingHistory bookingList={bookingList}/>
+
         </div>
     );
 };
