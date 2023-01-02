@@ -83,6 +83,22 @@ const RegisterBooking = () => {
         setInput(prev => ({...prev, [e.target.name]: e.target.value}))
     }
 
+    const setWorkingTime = (service) => {
+        switch (service) {
+            case "Basic":
+                input.workingTime = 2.0;
+                break;
+            case "Topp":
+                input.workingTime = 4.0;
+                break;
+            case "Diamant":
+                input.workingTime = 6.0;
+                break;
+            case "Window-clean":
+                input.workingTime = 8.0;
+        }
+    }
+
     const handleSave = (e) => {
 
         e.preventDefault()
@@ -92,6 +108,7 @@ const RegisterBooking = () => {
             const date = new Date(dateValue)
 
             if (input.address !== "" && input.service !== "" && dateValue !== undefined && timeValue !== undefined) {
+                setWorkingTime(input.service)
                 fetch("http://localhost:8080/customer/booking", {
                     method: "POST",
                     headers: {
@@ -141,7 +158,6 @@ const RegisterBooking = () => {
                         <FormLabel id="cleaning-type">Cleaning type/service</FormLabel>
                         <RadioGroup
                             aria-labelledby="cleaning-type"
-                            // defaultValue="basic"
                             name="service"
                             onChange={handleChange}
                         >
