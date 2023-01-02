@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { Button, Card, CardActions, CardContent, Grid, Typography } from "@mui/material";
 
 
-const AssignedCleanings = ({ cleanerData }) => {
+const AssignedCleanings = () => {
 
     const [myBooking, setMyBooking] = useState([])
 
     useEffect(() => {
 
         const getBookings = () => {
-            fetch(`http://localhost:8080/cleaner/${cleanerData.id}/booking`, {
+            fetch(`http://localhost:8080/cleaner/1/booking`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -21,11 +21,9 @@ const AssignedCleanings = ({ cleanerData }) => {
                 .then(booking => setMyBooking(booking))
         }
 
-        if (cleanerData.id) {
-            getBookings()
-        }
+        getBookings();
 
-    }, [cleanerData.id])
+    }, [])
 
 
 
@@ -42,7 +40,7 @@ const AssignedCleanings = ({ cleanerData }) => {
 
         setTimeout(() => {
 
-            fetch(`http://localhost:8080/cleaner/${cleanerData.id}/booking`, {
+            fetch(`http://localhost:8080/cleaner/1/booking`, {
                 method: "GET",
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token")
