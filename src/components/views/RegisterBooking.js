@@ -18,6 +18,7 @@ import {
     Stack,
     Typography, Snackbar
 } from '@mui/material';
+import workingTime from "../cleaner/WorkingTime";
 
 const RegisterBooking = () => {
 
@@ -83,6 +84,22 @@ const RegisterBooking = () => {
         setInput(prev => ({...prev, [e.target.name]: e.target.value}))
     }
 
+    const setWorkingTime = (service) => {
+        switch (service) {
+            case "Basic":
+                input.workingTime = 2.0;
+                break;
+            case "Topp":
+                input.workingTime = 4.0;
+                break;
+            case "Diamant":
+                input.workingTime = 6.0;
+                break;
+            case "Window-clean":
+                input.workingTime = 8.0;
+        }
+    }
+
     const handleSave = (e) => {
 
         e.preventDefault()
@@ -92,6 +109,7 @@ const RegisterBooking = () => {
             const date = new Date(dateValue)
 
             if (input.address !== "" && input.service !== "" && dateValue !== undefined && timeValue !== undefined) {
+                setWorkingTime(input.service)
                 fetch("http://localhost:8080/customer/booking", {
                     method: "POST",
                     headers: {
@@ -111,6 +129,7 @@ const RegisterBooking = () => {
                     }),
                 })
                     .then((res) => res.json())
+                    .then(data => console.log(data))
                     .catch((e) => console.log("Error " + e));
 
                 setOpen(true)
