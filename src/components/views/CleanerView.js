@@ -4,7 +4,7 @@ import AssignedCleanings from '../cleaner/AssignedCleanings';
 import WorkingTime from '../cleaner/WorkingTime';
 
 function CleanerView() {
-  const [cleanerData, setCleanerData] = useState([]);
+  const [cleanerData, setCleanerData] = useState();
   const [input, setInput] = useState({
     name: "",
     address: "",
@@ -22,8 +22,20 @@ function CleanerView() {
       },
     })
       .then((res) => res.json())
-      .then((data) => setCleanerData(data));
+      .then((data) => setCleanerData(data))
+
   }, []);
+
+  useEffect(() => {
+    if(cleanerData){
+      setInput({
+        name: cleanerData.name,
+        address: cleanerData.address,
+        telnum: cleanerData.telnum,
+        email: cleanerData.email,
+        password: cleanerData.password})
+      }
+  },[cleanerData])
 
   const handleChange = (e) => {
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -50,19 +62,13 @@ function CleanerView() {
     console.log(body);
 
     setCleanerData(body);
+
+    alert("Your data is edited")
   };
 
   return (
     <div className="App">
-      {cleanerData ? (
-        <div>
-          <p>
-            {cleanerData.name} lives in {cleanerData.address} his telephone{" "}
-            {cleanerData.telnum}
-          </p>
-        </div>
-      ) : null}
-      <Stack spacing={2} alignItems="center">
+      <Stack spacing={2} alignItems="center" margin={5}>
         <TextField
           id="name"
           label="Name"
@@ -106,10 +112,7 @@ function CleanerView() {
         <Button variant="contained" color="success" onClick={handleSave}>
           Edit
         </Button>
-        <div></div>
       </Stack>
-      <AssignedCleanings cleanerData={cleanerData}/>
-      <WorkingTime />
     </div>
   );
 }
