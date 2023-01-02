@@ -109,8 +109,8 @@ function CleanerView() {
           name="password"
           onChange={handleChange}
         />
-        <Button variant="contained" color="success" onClick={handleSave}>
-          Edit
+        <Button variant="contained" color="primary" onClick={handleSave}>
+          Save Changes
         </Button>
       </Stack>
     </div>

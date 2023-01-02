@@ -97,7 +97,7 @@ const CardView = (props) => {
           sx={{ marginLeft: 1 }}
           type={"submit"}
           color={"primary"}
-          variant={"outlined"}
+          variant={"contained"}
           onClick={() => handleClick(user)}
         >
           Save

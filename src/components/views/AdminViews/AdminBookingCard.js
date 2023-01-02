@@ -121,7 +121,7 @@ const AdminBookingCard = (props) => {
         <Button
           type={"submit"}
           color={"primary"}
-          variant={"outlined"}
+          variant={"contained"}
           onClick={handleClick}
           margin="normal"
         >

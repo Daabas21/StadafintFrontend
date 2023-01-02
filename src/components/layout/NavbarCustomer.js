@@ -20,7 +20,7 @@ const NavbarCustomer = () => {
             Städa fint - Customer
           </Typography>
           <Button color="inherit" component={Link} to="/customer">
-            My Page
+            My Account
           </Button>
           <Button color="inherit" component={Link} to="/my-bookings">
             My Bookings
