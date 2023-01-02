@@ -16,7 +16,7 @@ const Login = ({ logout }) => {
     if (logout) {
       deleteToken();
     }
-  }, []);
+  }, [logout]);
 
   const deleteToken = () => {
     localStorage.removeItem("token");
