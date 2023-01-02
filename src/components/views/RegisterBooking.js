@@ -18,7 +18,6 @@ import {
     Stack,
     Typography, Snackbar
 } from '@mui/material';
-import workingTime from "../cleaner/WorkingTime";
 
 const RegisterBooking = () => {
 
@@ -129,7 +128,6 @@ const RegisterBooking = () => {
                     }),
                 })
                     .then((res) => res.json())
-                    .then(data => console.log(data))
                     .catch((e) => console.log("Error " + e));
 
                 setOpen(true)
@@ -160,7 +158,6 @@ const RegisterBooking = () => {
                         <FormLabel id="cleaning-type">Cleaning type/service</FormLabel>
                         <RadioGroup
                             aria-labelledby="cleaning-type"
-                            // defaultValue="basic"
                             name="service"
                             onChange={handleChange}
                         >
