@@ -20,10 +20,10 @@ const NavbarCleaner = () => {
             Städa fint - Employee
           </Typography>
           <Button color="inherit" component={Link} to="/cleaner">
-            My Page
+            My Account
           </Button>
           <Button color="inherit" component={Link} to="/cleanerbookings">
-            Bookings
+            Assignments
           </Button>
           <Button color="inherit" component={Link} to="/logout">
             Log out

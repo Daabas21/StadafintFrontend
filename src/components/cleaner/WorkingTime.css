@@ -1,0 +1,13 @@
+.react-datepicker__input-container input[type="text" i] {
+    height: 1.4375em;
+    padding: 16.5px 14px;
+    font-size: 1rem;
+}
+
+.react-datepicker__input-container input[type="text" i]:hover {
+    border-color: black;
+}
+
+.react-datepicker__input-container input[type="text" i]::placeholder {
+    font-size: 1rem;
+}

@@ -1,10 +1,12 @@
 import DatePicker from 'react-datepicker';
 import React, { useEffect, useState } from 'react'
+import './WorkingTime.css'
+import BookingCard from "../common/BookingCard";
 
 import "react-datepicker/dist/react-datepicker.css"
 import { Stack } from '@mui/system';
 import { format } from 'date-fns';
-import { Button, Card, CardContent, Grid, Typography } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 
 const WorkingTime = () => {
 
@@ -56,8 +58,16 @@ const WorkingTime = () => {
     }
 
     return (
-        <Stack alignItems={"center"}>
-            <div>Enter the dates</div>
+        <Stack alignItems={"center"} spacing={2}>
+            <Typography
+                id="title"
+                component="h1"
+                variant="h5"
+                marginTop={2}
+                marginBottom={2}
+            >
+                Check you working hours
+            </Typography>
             <DatePicker
                 selectsRange={true}
                 startDate={date1}
@@ -66,40 +76,32 @@ const WorkingTime = () => {
                 dateFormat='dd-MM-yyyy'
                 withPortal
                 onCalendarOpen={handleCalendarOpen}
+                placeholderText={"Please select dates"}
             />
             <Button
+                color={"primary"}
+                variant={"contained"}
                 onClick={searchDoneJobs}
-            >search</Button>
+            >
+                Check
+            </Button>
             <Grid container spacing={2} wrap={"wrap"} justifyContent={"center"}>
 
                 {doneJobs ? doneJobs.map(booking => {
                     return (
-                        <Card key={booking.bookingId} sx={{ minWidth: 250, marginTop: 2, textAlign: "center" }}>
-                            <CardContent>
-                                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                    {booking.date}
-                                </Typography>
-                                <Typography variant="h5" component="div">
-                                    {booking.address}
-                                </Typography>
-                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    {booking.time}
-                                </Typography>
-                                <Typography variant="body2">
-                                    Service: {booking.service ? booking.service : "none"}
-                                    <br />
-                                    Status: {booking.status}
-                                </Typography>
-                            </CardContent>
-                        </Card>
+                        <BookingCard booking={booking} />
                     )
                 }) : null}
             </Grid>
-            {doneJobs ? <Button
-            onClick={calculateWorkingTime}
-            >
-            Calculate workingTime for selected period
-            </Button> : null}
+            { doneJobs ?
+                <Button
+                    color={"primary"}
+                    variant={"outlined"}
+                    onClick={calculateWorkingTime}
+                >
+                    See total
+                </Button> : null
+            }
         </Stack>
     )
 }

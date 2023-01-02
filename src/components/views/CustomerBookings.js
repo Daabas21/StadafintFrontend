@@ -100,7 +100,7 @@ const CustomerBookings = () => {
                 Bookings
             </Typography>
 
-            <div style={{height: 400, width: '100%'}}>
+            <div style={{height: 400, width: 'auto'}}>
                 <DataGrid
                     rows={bookingList.filter(booking => booking.status !== "Performed")}
                     getRowId={(row) => row?.bookingId}
