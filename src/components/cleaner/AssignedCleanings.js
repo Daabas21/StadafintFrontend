@@ -51,7 +51,7 @@ const AssignedCleanings = ({ cleanerData }) => {
                 .then(res => res.json())
                 .then(data => data.sort((a, b) => Date.parse(a.date) - Date.parse(b.date)))
                 .then(booking => setMyBooking(booking))
-        }, [300])
+        }, [500])
 
     
 }
@@ -99,7 +99,7 @@ return (
                                     </Typography>
                                 </CardContent>
                                 <CardActions sx={{ justifyContent: "center" }}>
-                                    {booking.status === "Performed" ?
+                                    {booking.status === "Under construction" ?
                                         <Button
                                             variant="outlined"
                                             color="success"
