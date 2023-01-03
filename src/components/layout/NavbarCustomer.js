@@ -14,10 +14,10 @@ const NavbarCustomer = () => {
           <Typography
             variant="h4"
             component={Link}
-            to="/"
+            to="/landingpage"
             sx={{ flexGrow: 1, textDecoration: "none", color: "white" }}
           >
-            Städa fint - Customer
+            StädaFint - Customer
           </Typography>
           <Button color="inherit" component={Link} to="/customer">
             My Account

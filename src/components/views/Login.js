@@ -1,4 +1,4 @@
-import {Button, Link, TextField} from "@mui/material";
+import { Button, Link, TextField } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
@@ -40,7 +40,7 @@ const Login = ({ logout }) => {
     const token = data.token;
 
     setToken(token);
-    document.location.href = "/";
+    document.location.href = "/landingpage";
   };
 
   return (
@@ -67,7 +67,9 @@ const Login = ({ logout }) => {
         </Button>
         <div>
           You don't have an account yet?
-          <div style={{textAlign: "center"}}><Link href="/registeruser">Sign Up</Link> here.</div>
+          <div style={{ textAlign: "center" }}>
+            <Link href="/registeruser">Sign Up</Link> here.
+          </div>
         </div>
       </Stack>
     </div>

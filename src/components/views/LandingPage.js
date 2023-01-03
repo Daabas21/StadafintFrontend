@@ -1,9 +1,7 @@
 import "./Home.css";
-import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
 import image from "../images/w.jpg";
 
-const Home = () => {
+const LandingPage = () => {
   return (
     <div
       style={{
@@ -20,20 +18,9 @@ const Home = () => {
         <p className="hero-subtitle">
           we make your everyday a little bit easier...
         </p>
-
-        <Button
-          sx={{ marginTop: "2rem" }}
-          size="large"
-          className="hero-button"
-          variant="contained"
-          component={Link}
-          to="/login"
-        >
-          Book a Cleaning
-        </Button>
       </section>
     </div>
   );
 };
 
-export default Home;
+export default LandingPage;

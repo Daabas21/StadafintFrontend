@@ -1,7 +1,5 @@
-import { Button, Stack, TextField } from '@mui/material';
-import { useEffect, useState } from 'react';
-import AssignedCleanings from '../cleaner/AssignedCleanings';
-import WorkingTime from '../cleaner/WorkingTime';
+import { Button, Stack, TextField } from "@mui/material";
+import { useEffect, useState } from "react";
 
 function CleanerView() {
   const [cleanerData, setCleanerData] = useState();
@@ -22,20 +20,20 @@ function CleanerView() {
       },
     })
       .then((res) => res.json())
-      .then((data) => setCleanerData(data))
-
+      .then((data) => setCleanerData(data));
   }, []);
 
   useEffect(() => {
-    if(cleanerData){
+    if (cleanerData) {
       setInput({
         name: cleanerData.name,
         address: cleanerData.address,
         telnum: cleanerData.telnum,
         email: cleanerData.email,
-        password: cleanerData.password})
-      }
-  },[cleanerData])
+        password: cleanerData.password,
+      });
+    }
+  }, [cleanerData]);
 
   const handleChange = (e) => {
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -63,7 +61,7 @@ function CleanerView() {
 
     setCleanerData(body);
 
-    alert("Your data is edited")
+    alert("Your data is edited");
   };
 
   return (
