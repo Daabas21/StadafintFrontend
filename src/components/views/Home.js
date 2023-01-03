@@ -3,7 +3,20 @@ import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import image from "../images/w.jpg";
 
-const Home = () => {
+import { useEffect } from "react";
+
+const Home = ({ logout }) => {
+  useEffect(() => {
+    if (logout) {
+      deleteToken();
+    }
+  }, [logout]);
+
+  const deleteToken = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("lasLoginTime");
+    window.location.href = "/";
+  };
   return (
     <div
       style={{

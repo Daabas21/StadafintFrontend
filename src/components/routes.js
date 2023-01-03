@@ -15,7 +15,7 @@ import LandingPage from "./views/LandingPage";
 function AppRouter() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home logout={false} />} />
       <Route path="/landingpage" element={<LandingPage />} />
       <Route path="/cleaner" element={<CleanerView />} />
       <Route path="/cleanerbookings" element={<CleanerViewBookings />} />
@@ -27,7 +27,7 @@ function AppRouter() {
       <Route path="/booking" element={<RegisterBooking />} />
       <Route path="/my-bookings" element={<CustomerBookings />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/logout" element={<Login logout={true} />} />
+      <Route path="/logout" element={<Home logout={true} />} />
     </Routes>
   );
 }
