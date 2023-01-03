@@ -1,28 +1,14 @@
 import { Button, Link, TextField } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
 
 const setToken = (token) => {
   localStorage.setItem("token", token);
   localStorage.setItem("lastLoginTime", new Date(Date.now()).getTime);
 };
 
-const Login = ({ logout }) => {
-  // const navigate = useNavigate();
+const Login = () => {
   const [input, setInput] = useState({ email: "", password: "" });
-
-  useEffect(() => {
-    if (logout) {
-      deleteToken();
-    }
-  }, [logout]);
-
-  const deleteToken = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("lasLoginTime");
-    document.location.href = "/";
-  };
 
   const handleChange = (e) => {
     setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
