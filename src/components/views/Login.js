@@ -56,6 +56,7 @@ const Login = ({ logout }) => {
         />
         <TextField
           id="password"
+          type="password"
           label="password"
           variant="standard"
           value={input.password}

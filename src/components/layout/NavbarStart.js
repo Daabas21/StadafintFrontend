@@ -5,17 +5,24 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+// import Logo from "../common/Logo";
+import Logo from "../images/sf.png";
 
 const NavbarStart = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
+          <img src={Logo} alt="" />
           <Typography
             variant="h4"
             component={Link}
             to="/landingpage"
-            sx={{ flexGrow: 1, textDecoration: "none", color: "white" }}
+            sx={{
+              flexGrow: 1,
+              textDecoration: "none",
+              color: "white",
+            }}
           >
             StädaFint
           </Typography>
